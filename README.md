@@ -43,12 +43,12 @@ On Windows 10/11:
 
   • Execute the auto_ZO_translate.py script:
   
-        <i>Double-Clic from Windows GUI</i>
+        Double-Clic from Windows GUI
         
         or 
         
-        <i>./auto_ZO_translate.py</i>
+        ./auto_ZO_translate.py
 
   • To restore original translation, execute the script with following argument:
   
-        <i>./auto_ZO_translate.py -r</i>
+        ./auto_ZO_translate.py -r
