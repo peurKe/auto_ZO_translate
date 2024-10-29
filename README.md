@@ -5,6 +5,7 @@ Script for translating dialogues and quest titles of the Steam game 'Z.O.N.A Ori
 ## Prerequisites
 
   • Your 'Z.O.N.A Origin' game must be up to date.
+  
   • You must authorise this script in your firewall (API requests from the Online Google translator are required).
 
 ## Currently supported languages
