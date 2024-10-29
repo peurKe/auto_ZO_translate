@@ -4,8 +4,8 @@
 Title : auto_ZO_translate.py
 Description : Script for translating dialogues and quest titles of the Steam game 'Z.O.N.A Origin by AGaming+'.
 Author: peurKe
-Creation Date: 2024-10-28
-Last Modified: 2024-10-27
+Creation Date: 2024-10-27
+Last Modified: 2024-10-28
 Version: 1.0
 License: MIT
 """
