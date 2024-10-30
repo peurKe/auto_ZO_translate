@@ -92,7 +92,7 @@ String = namedtuple("String", ["s", "offset"])
 # English Stopwords
 CUSTOM_EN_STOPWORDS = ['the', 'to', 'and', 'a', 'in', 'it', 'is', 'that', 'this', 'had', 'on', 'for', 'were', 'was']
 # German Stopwords (But not containing English stopwords)
-CUSTOM_DE_STOPWORDS = ['aber', 'abzug', 'alle', 'allem', 'allen', 'aller', 'alles', 'als', 'ander', 'andere', 'anderem', 'anderen', 'anderer', 'anderes', 'anderm', 'andern', 'anders', 'angekommen', 'auch', 'auf', 'bei', 'benutzt', 'ber', 'berfalls', 'berleben', 'berraschungen', 'bewegungen', 'bist', 'bleibt', 'damit', 'dann', 'derselbe', 'derselben', 'denselben', 'desselben', 'demselben', 'dieselbe', 'dieselben', 'dass', 'dasselbe', 'dazu', 'dein', 'deine', 'deinem', 'deinen', 'deiner', 'deines', 'den', 'denn', 'der', 'derer', 'des', 'dessen', 'dich', 'diesem', 'diesen', 'dieser', 'doch', 'dormitory', 'durch', 'ein', 'eine', 'einem', 'einen', 'einer', 'eines', 'einheit', 'einig', 'einige', 'einigem', 'einigen', 'einiger', 'einiges', 'einmal', 'erinnert', 'ihm', 'etwas', 'euer', 'eure', 'eurem', 'euren', 'eurer', 'eures', 'fur', 'gesch', 'gegen', 'gewehr', 'gewesen', 'gibt', 'habe', 'haben', 'hatte', 'hatten', 'hauptquartier', 'hilft', 'hin', 'hinter', 'ich', 'im', 'kamera', 'kugelflug', 'mich', 'mir', 'ihr', 'ihm', 'ihn', 'ihnen', 'indem', 'infizierte', 'ist', 'jede', 'jedem', 'jeden', 'jeder', 'jedes', 'jener', 'jenem', 'jenen', 'jener', 'jenes', 'jetzt', 'kalorien', 'kann', 'kannst', 'kein', 'keine', 'keinem', 'keinen', 'keiner', 'keines', 'konnen', 'konnte', 'machen', 'manchem', 'manchen', 'mancher', 'manches', 'mein', 'meine', 'meinem', 'meinen', 'meiner', 'meines', 'monolithen', 'muss', 'musste', 'nach', 'nicht', 'nichts', 'nun', 'nur', 'nutzen', 'oder', 'ohne', 'patrone', 'patronem', 'perfekt', 'perfekte', 'risches', 'sehr', 'sein', 'seine', 'seinem', 'seinen', 'seiner', 'seines', 'selbst', 'sich', 'sie', 'siehst', 'sind', 'solche', 'solchem', 'solchen', 'solcher', 'solches', 'sollte', 'sondern', 'sonst', 'sowohl', 'uber', 'und', 'uns', 'unser', 'unsere', 'unserem', 'unseren', 'unseres', 'unter', 'verbrennen', 'viel', 'vom', 'vor', 'vorbereiten', 'wahrend', 'waren', 'warst', 'weg', 'welche', 'welchem', 'welchen', 'welcher', 'welches', 'welt', 'wenn', 'werde', 'werden', 'wie', 'wieder', 'wir', 'wird', 'wirst', 'wollen', 'wollte', 'wohnheim', 'wurde', 'wurden', 'zug', 'zum', 'zur', 'zwar', 'zwischen']
+CUSTOM_DE_STOPWORDS = ['aber', 'abzug', 'alle', 'allem', 'allen', 'aller', 'alles', 'als', 'ander', 'andere', 'anderem', 'anderen', 'anderer', 'anderes', 'anderm', 'andern', 'anders', 'angekommen', 'auch', 'auf', 'bei', 'benutzt', 'ber', 'berfalls', 'berleben', 'berraschungen', 'bewegungen', 'bist', 'bleibt', 'damit', 'dann', 'derselbe', 'derselben', 'denselben', 'desselben', 'demselben', 'dieselbe', 'dieselben', 'dass', 'dasselbe', 'dazu', 'dein', 'deine', 'deinem', 'deinen', 'deiner', 'deines', 'den', 'denn', 'der', 'derer', 'des', 'dessen', 'dich', 'diesem', 'diesen', 'dieser', 'doch', 'dormitory', 'durch', 'ein', 'eine', 'einem', 'einen', 'einer', 'eines', 'einheit', 'einig', 'einige', 'einigem', 'einigen', 'einiger', 'einiges', 'einmal', 'erinnert', 'ihm', 'etwas', 'euer', 'eure', 'eurem', 'euren', 'eurer', 'eures', 'fur', 'gesch', 'gegen', 'gewehr', 'gewesen', 'gibt', 'habe', 'haben', 'hallo', 'hatte', 'hatten', 'hauptquartier', 'hilft', 'hin', 'hinter', 'ich', 'im', 'kamera', 'kugelflug', 'mich', 'mir', 'ihr', 'ihm', 'ihn', 'ihnen', 'indem', 'infizierte', 'ist', 'jede', 'jedem', 'jeden', 'jeder', 'jedes', 'jener', 'jenem', 'jenen', 'jener', 'jenes', 'jetzt', 'kalorien', 'kann', 'kannst', 'kein', 'keine', 'keinem', 'keinen', 'keiner', 'keines', 'konnen', 'konnte', 'machen', 'manchem', 'manchen', 'mancher', 'manches', 'mein', 'meine', 'meinem', 'meinen', 'meiner', 'meines', 'monolithen', 'muss', 'musste', 'nach', 'nicht', 'nichts', 'nun', 'nur', 'nutzen', 'oder', 'ohne', 'patrone', 'patronem', 'perfekt', 'perfekte', 'risches', 'sehr', 'sein', 'seine', 'seinem', 'seinen', 'seiner', 'seines', 'selbst', 'sich', 'sie', 'siehst', 'sind', 'solche', 'solchem', 'solchen', 'solcher', 'solches', 'sollte', 'sondern', 'sonst', 'sowohl', 'uber', 'und', 'uns', 'unser', 'unsere', 'unserem', 'unseren', 'unseres', 'unter', 'verbrennen', 'viel', 'vom', 'vor', 'vorbereiten', 'wahrend', 'waren', 'warst', 'weg', 'welche', 'welchem', 'welchen', 'welcher', 'welches', 'welt', 'wenn', 'werde', 'werden', 'wie', 'wieder', 'wir', 'wird', 'wirst', 'wollen', 'wollte', 'wohnheim', 'wurde', 'wurden', 'zug', 'zum', 'zur', 'zwar', 'zwischen']
 
 CUSTOM_TARGET_STOPWORDS = {
     "en": [
@@ -109,12 +109,14 @@ CUSTOM_TARGET_STOPWORDS = {
     # ],
     # # END LAST STOPWORDS FR OK
     "fr": [
-        [ 'le', 'de', 'un', 'et', 'en', 'la', 'les', 'du', 'des', 'pour', 'dans', 'que', 'qui', 'il', 'elle', 'nous', 'vous', 'ils', 'ne',
-          'au', 'avec', 'sur', 'ce', 'sa', 'ses', 'son', 'mon', 'ma', 'mes', 'ton', 'ta', 'tes', 'ou', 'par', 'se', 'cette', 'cet', 'a', 'sont',
-          'moi', 'toi', 'lui', 'elle', 'eux', 'leur', 'leurs', 'y', 'on', 'te', 'me', 't', 'm', 'est', 'tous', 'toutes', 'ces', 'ceux', 'bien',
-          'ainsi', 'cela', 'soit', 'comme', 'encore', 'alors', 'avant', 'depuis', 'chez', 'tres', 'peu', 'autre', 'entre', 'sans', 'apres', 'donc', 'meme', 'vers',
-          'autres', 'aucun', 'aucune', 'chacun', 'chaque', 'quel', 'quelle', 'quels', 'quelles', 'quelque', 'quelques', 'souvent', 'tandis', 'toutefois', 'contre', 'hors', 'selon',
-          'desormais', 'parfois', 'partout', 'pres', 'loin', 'dela', 'autant', 'certain', 'certaines', 'certains', 'dessus', 'dessous', 'ci', 'pourquoi', 'lorsque', 'comment' ]
+        # Manually added: 'd', 'une', 'mode'
+        # Manually removed: 'pas'
+        [ 'a', 'c', 'd', 'l', 'm', 'n', 's', 't', 'y', 'le', 'de', 'un', 'une', 'et', 'en', 'la', 'les', 'du', 'des', 'pour', 'dans', 'que', 'qui', 'il', 'elle', 'nous', 'vous', 'ils', 'ne' ],  # 1st set of stopwords
+        [ 'au', 'avec', 'sur', 'ce', 'sa', 'ses', 'son', 'mon', 'ma', 'mes', 'ton', 'ta', 'tes', 'ou', 'par', 'se', 'cette', 'cet', 'sont' ],   # 2nd set of stopwords
+        [ 'moi', 'toi', 'lui', 'elle', 'eux', 'leur', 'leurs', 'on', 'te', 'me', 'est', 'tous', 'toutes', 'ces', 'ceux', 'bien', 'mode' ],  # 3rd set of stopwords
+        [ 'ainsi', 'cela', 'soit', 'comme', 'encore', 'alors', 'avant', 'depuis', 'chez', 'tres', 'peu', 'autre', 'entre', 'sans', 'apres', 'donc', 'meme', 'vers' ],  # 4th set of stopwords
+        [ 'autres', 'aucun', 'aucune', 'chacun', 'chaque', 'quel', 'quelle', 'quels', 'quelles', 'quelque', 'quelques', 'souvent', 'tandis', 'toutefois', 'contre', 'hors', 'selon' ],  # 5th set of stopwords
+        [ 'desormais', 'parfois', 'partout', 'pres', 'loin', 'dela', 'autant', 'certain', 'certaines', 'certains', 'dessus', 'dessous', 'ci', 'pourquoi', 'lorsque', 'comment' ]  # 6th set of stopwords
     ],
     "cs": [
         [ 'me', 'te', 'se', 'ja', 'ty', 'on', 'jej', 'to', 'ta', 'ty', 'my', 'vy', 'oni', 'to', 'to', 'to', 'ten', 'ta', 'ti', 'kdo', 'co', 'co', 'o', 'nebo',
@@ -129,7 +131,8 @@ CUSTOM_TARGET_STOPWORDS = {
           'gli', 'le', 'lo', 'mi', 'ti', 'ci', 'vi', 'questo', 'quello', 'cui', 'ma', 'o',
           'quanto', 'quella', 'mio', 'tuo', 'suo', 'nostro', 'vostro', 'la', 'qui', 'già', 'sia', 'cosi',
           'dove', 'perche', 'ancora', 'sotto', 'sopra', 'tra', 'fra', 'se', 'quando', 'come', 'poi', 'dopo',
-          'mentre', 'davanti', 'contro', 'verso', 'intanto', 'quindi', 'ora', 'poco', 'molto', 'tanto', 'altro', 'sempre', 'alcuno', 'alcuna', 'alcuni', 'alcune', 'al', 'allo', 'agli', 'dagli', 'dagli', 'agli', 'dagli' ]
+          'mentre', 'davanti', 'contro', 'verso', 'intanto', 'quindi', 'ora', 'poco', 'molto', 'tanto', 'altro', 'sempre', 'alcuno', 'alcuna', 'alcuni', 'alcune', 'al', 'allo', 'agli', 'dagli', 'dagli', 'agli', 'dagli',
+          'affinche', 'alcuno', 'allorche', 'benche', 'ciascuno', 'cosicche', 'difatti', 'gia', 'neanche', 'nemmeno', 'neppure', 'ovunque', 'percio', 'pero', 'poiche', 'qualunque', 'quindi', 'siccome', 'talche', 'tuttavia' ]
     ],
     "es": [
         [ 'de', 'la', 'que', 'el', 'en', 'y', 'a', 'los', 'se', 'del', 'las', 'un', 'por', 'con', 'una', 'su', 'para', 'es', 'al', 'lo',
@@ -163,8 +166,8 @@ RESTORE_SPECIFIC_WORDS = {
     ],
     'fr': [
         { "from": "origine vr", "to": "ORIGIN VR" },
-        { "from": "harceleur", "to": "stalker" },
-        { "from": "traqueur", "to": "stalker" },
+        { "from": "harceleur", "to": "Stalker" },
+        { "from": "traqueur", "to": "Stalker" },
         { "from": "couleur",   "to": "color" },
         { "from": "œ", "to": "oe" },
         { "from": "Tournees magazine", "to": "Balles dans chargeur" },
@@ -172,28 +175,28 @@ RESTORE_SPECIFIC_WORDS = {
     ],
     'cs': [
         { "from": "puvod vr", "to": "ORIGIN VR" },
-        { "from": "tracker", "to": "stalker" },
+        { "from": "tracker", "to": "Stalker" },
         { "from": "barva",   "to": "color" }
     ],
     "it": [
         { "from": "origine vr", "to": "ORIGIN VR" },
-        { "from": "tracker", "to": "stalker" },
+        { "from": "tracker", "to": "Stalker" },
         { "from": "colore",   "to": "color" }
     ],
     "es": [
         { "from": "origen vr", "to": "ORIGIN VR" },
-        { "from": "acosador", "to": "stalker" },
+        { "from": "acosador", "to": "Stalker" },
         { "from": "rastreador", "to": "stalker" }
     ],
     "ro": [
         { "from": "origine vr", "to": "ORIGIN VR" },
-        { "from": "urmaritor", "to": "stalker" },
-        { "from": "tracker", "to": "stalker" },
+        { "from": "urmaritor", "to": "Stalker" },
+        { "from": "tracker", "to": "Stalker" },
         { "from": "culoare",   "to": "color" }
     ],
     "pl": [
         { "from": "pochodzenie vr", "to": "ORIGIN VR" },
-        { "from": "tracker", "to": "stalker" },
+        { "from": "tracker", "to": "Stalker" },
         { "from": "kolor",   "to": "color" }
     ],
     'all': [
@@ -267,25 +270,39 @@ def dialog_exclude_lang(dialog, lang='de', skip=False):
 
 def remove_specials(text):
     # return text.replace('"', '')
-    return re.sub(r'[^a-zA-Z0-9\s\.,!?:]', '', text)
+    # Replace special characters with one whitepace (can generate double whitespace)
+    text = re.sub(r'[^a-zA-Z0-9\s\.,!?:]', ' ', text)
+    # Remove double whitespaces
+    text = text.replace('  ', ' ')
+    return text
 
-def remove_accents(text):
+def replace_accents(text):
     # text = unicodedata.normalize('NFKD', text)
     # return "".join([c for c in text if not unicodedata.combining(c)])
     return unidecode(text)
 
 def restore_translated_words(text, lang='en'):
     for restore_word in RESTORE_SPECIFIC_WORDS[lang]:
-        text = text.replace(restore_word['from'], restore_word['to'])
+        # # Replace case sensitive
+        # text = text.replace(restore_word['from'], restore_word['to'])
+        # Replace case insensitive
+        pattern = re.compile(re.escape(restore_word['from']), re.IGNORECASE)
+        text = pattern.sub(restore_word['to'], text)
     return text
 
-def dialog_filter(dialog, lang='en', remove_accent=True, target_length=0):
-    if '</color>' in dialog:
-        sep = '</color>'
-        dialog_list = dialog.split(sep)
-    # elif '</color>-' in dialog:
-    #     sep = '</color>'
-    #     dialog_list = dialog.split(sep)
+def dialog_filter(dialog, lang='en', target_length=0):
+    # Preserve <color=#hhhhhh></color> tags
+    if '<color' in dialog:
+        if '</color>' in dialog:
+            sep = '</color>'
+            dialog_list = dialog.split(sep)
+        # elif '</color>' in dialog:
+        #     sep = '</color>'
+        #     dialog_list = dialog.split(sep)
+        else:
+            # No </color> tag associated to existing <color=#hhhhhh> tag, so no translate is needed
+            return dialog
+    # No <color=#hhhhhh> and </color> tags found
     else:
         sep = ''
         dialog_list = ['', dialog]
@@ -293,18 +310,29 @@ def dialog_filter(dialog, lang='en', remove_accent=True, target_length=0):
     color = dialog_list[0]
     dialog = dialog_list[1]
 
-    # Remove all accentuation characters
-    dialog = remove_accents(dialog)
+    # Replace all accentuation characters
+    dialog = replace_accents(dialog)
+
+    # Remove all special characters
+    dialog = remove_specials(dialog)
+
     # Split text to a list of words
     tokens = word_tokenize(dialog)
+    
+    #  This list will grow with successives stopwords list
+    all_requested_stopwords = []
     # Remove stop words
     for requested_stopwords in CUSTOM_TARGET_STOPWORDS[lang]:
-        dialog_filtered_list = [t for t in tokens if t.lower() not in requested_stopwords]
+        all_requested_stopwords.extend(requested_stopwords)
+        dialog_filtered_list = [t for t in tokens if t.lower() not in all_requested_stopwords]
         dialog = ' '.join(dialog_filtered_list)
+        # print(dialog)
         # Current stopwords set is not enough, go to next stopwords set
         if len(dialog) > target_length:
             tokens = word_tokenize(dialog)
             continue
+        else:
+            break
     # Restore specific words in translated lang
     dialog = restore_translated_words(dialog, lang=lang)
     # Restore specific words for all langs
@@ -312,12 +340,18 @@ def dialog_filter(dialog, lang='en', remove_accent=True, target_length=0):
     return f"{color}{sep}{dialog}"
 
 def dialog_translate(src, dialog, to='fr'):
-    if '</color>' in dialog:
-        sep = '</color>'
-        dialog_list = dialog.split(sep)
-    # elif '</color>' in dialog:
-    #     sep = '</color>'
-    #     dialog_list = dialog.split(sep)
+    # Preserve <color=#hhhhhh></color> tags
+    if '<color' in dialog:
+        if '</color>' in dialog:
+            sep = '</color>'
+            dialog_list = dialog.split(sep)
+        # elif '</color>' in dialog:
+        #     sep = '</color>'
+        #     dialog_list = dialog.split(sep)
+        else:
+            # No </color> tag associated to existing <color=#hhhhhh> tag, so no translate is needed
+            return dialog
+    # No <color=#hhhhhh> and </color> tags found
     else:
         sep = ''
         dialog_list = ['', dialog]
@@ -379,11 +413,21 @@ def restore_files(src=DEFAULT_ZONA_BACKUP_DIR):
 
     # All backup files
     files_to_copy = [os_path.join(src, f) for f in os_listdir(src)]
+    files_count = len(files_to_copy)
+    if not files_count:
+        print(f" {bcolors.FAIL}Error: There is {files_count} file to restore from '{src}/' directory.{bcolors.ENDC}\n")
+        input(" Press Enter to exit...\n")
+        sys.exit(-1)
     # Copy all backup files in data directory
     for file in files_to_copy:
         data_file = os_path.join(DEFAULT_ZONA_DATA_DIR, os_path.basename(file))
         shutil.copy2(file, data_file)
-    print(f" • {bcolors.OK}[Restore files from '{src}/' directory to '{DEFAULT_ZONA_DATA_DIR}/'] OK{bcolors.ENDC}\n")
+    print(f" • {bcolors.OK}[Restore {files_count} files from '{src}/' directory to '{DEFAULT_ZONA_DATA_DIR}/'] OK{bcolors.ENDC}\n")
+
+def check_all_in_langs(text):
+    if 'all' in text:
+        text = ['fr', 'cs', 'it', 'es', 'ro', 'pl']
+    return text
 
 
 def main():
@@ -396,14 +440,15 @@ def main():
             sys.exit(-1)
 
         argparser = argparse.ArgumentParser()
-        argparser.add_argument("-l", "--lang", type=str, default='empty', choices=['empty', 'fr', 'cs', 'it', 'es', 'ro', 'pl'], help="language to translate to")
-        argparser.add_argument("-f", "--files", type=str, default='empty', help="comma separated str. Default is with all 'levelNN' and 'resources.assets' files")
-        argparser.add_argument("-s", "--min-size", type=int, default=15, help="minimum size for string to translate is set to 15")
+        argparser.add_argument("-l", "--langs", type=str, default='empty', choices=['empty', 'all', 'fr', 'cs', 'it', 'es', 'ro', 'pl'], help="languages to translate to. if more than one language then '--langs' parameter must be comma separated (eg. 'fr,cs')")
+        argparser.add_argument("-f", "--files", type=str, default='empty', help="comma separated str. Default is with all 'levelNN' and 'resources.assets' files. if '--file' is specified then '--files' parameter must be comma separated (eg. 'level7,level11')")
+        argparser.add_argument("-s", "--min-size", type=int, default=18, help="minimum size for string to translate is set to 18 (to avoid <color></color> tags)")
         argparser.add_argument("-r", "--restore", action='store_true', help="restore backup files (reset)")
 
         args = argparser.parse_args()
-    
-        i_lang = args.lang
+
+        i_langs = args.langs.split(',')
+        i_langs = check_all_in_langs(i_langs)
         i_files = args.files.split(',')
         i_min_size = args.min_size
         i_restore = args.restore
@@ -433,17 +478,19 @@ def main():
             print(f" {bcolors.ENDC}")
 
             # BEGIN GUI execution
-            if not i_restore:
-                restore = ''
-                while restore not in ['y', 'n']:
-                    restore = str(input(f" {bcolors.CYAN}Do you want to restore backup files before translate ? (y/n): {bcolors.ENDC}")).lower().strip()
-                if restore == 'y':
-                    restore_files()
+            # if not i_restore:
+            #     restore = ''
+            #     while restore not in ['y', 'n']:
+            #         restore = str(input(f" {bcolors.CYAN}Do you want to restore backup files before translate ? (y/n): {bcolors.ENDC}")).lower().strip()
+            #     if restore == 'y':
+            #         restore_files()
 
-            if i_lang == 'empty':
-                i_lang = ''
-                while i_lang not in ['fr', 'cs', 'it', 'es', 'ro', 'pl']:
-                    i_lang = str(input(f" {bcolors.CYAN}Language to translate to (fr|cs|it|es|ro|pl): {bcolors.ENDC}")).lower().strip()
+            if i_langs == ['empty']:
+                i_langs = ''
+                while i_langs not in ['all', 'fr', 'cs', 'it', 'es', 'ro', 'pl']:
+                    i_langs = str(input(f" {bcolors.CYAN}Language to translate to (all|fr|cs|it|es|ro|pl): {bcolors.ENDC}")).lower().strip()
+                i_langs = i_langs.split(',')
+                i_langs = check_all_in_langs(i_langs)
             # END GUI execution
         
             # Save 'i_min_size' for 'resources.assets'
@@ -456,7 +503,7 @@ def main():
             print(f" {bcolors.WARN}")
             print(f" // PARAMETERS:")
             print(f"    • translate from .................... : 'en'")
-            print(f"    • translate to ...................... : '{i_lang}'")
+            print(f"    • translate to ...................... : '{i_langs}'")
             print(f"    • minimum size string to translate .. : {i_min_size}")
             print(f"    • files to translate ................ : {i_files}\n")
             print(f" {bcolors.ENDC}")
@@ -479,172 +526,188 @@ def main():
                 print(f" • {bcolors.OK}[Backup in '{DEFAULT_ZONA_BACKUP_DIR}/' directory already exists] OK{bcolors.ENDC}\n")
             else:
                 backup_files()
-
-            print(f" • [Translate from 'en' to '{i_lang}'] ...\n")
             
-            # BEGIN Translate to i_lang
+            # Initialiaze variable for lang for progression
+            i_langs_count = len(i_langs)
+            i_langs_index = 0
             
-            # Create relative translate dir for lang file destination
-            TRANSLATE_DIR_PATH = f"{DEFAULT_ZONA_TRANSLATE_DIR}/{i_lang}"
-            if not os_path.exists(TRANSLATE_DIR_PATH):
-                os_makedirs(TRANSLATE_DIR_PATH)
-
-            # print
-            # print(f" • [Translate from 'en' to '{i_lang}'] ...")
-
             # for i_file in i_files:
-            for i_file in tqdm(i_files):
+            for i_lang in i_langs:
 
-                i_file_translated = f"{TRANSLATE_DIR_PATH}/{i_file}"
-                i_file = f"{DEFAULT_ZONA_DATA_DIR}/{i_file}"
-            
-                # print(f" • [Translate from 'en' to '{i_lang}'] {i_file} ...")
+                # Increment lang index for progression
+                i_langs_index = i_langs_index + 1
 
-                with open(i_file, 'rb') as f:
-                    if i_file == 'resources.assets':
-                        # 'i_min_size' for 'resources.assets' cannot be too big. Some quests (as 'Explore ' one ) are truncated with non-ascii characters.
-                        if i_min_size > 6:
-                            i_min_size = 6
-                        # Only 'resources.assets' file
-                        start_from_hex_0 = "41 46 55 20 5F 4F 54 53 54 55 50 4E 49 4B"  # AFU _OTSTUPNIK
-                        start_from_int_0 = get_address_from_binary(f, i_file, start_from_hex_0, 'AFU _OTSTUPNIK')
-                        # end_from_hex_0 = "53 68 6F 6F 74 69 6E 67 20 73 66 78"  # Shooting sfx
-                        # end_from_int_0 = get_address_from_binary(f, i_file, end_from_hex_0, 'Shooting sfx')
-                        allowed_ranges = [
-                            {
-                                "begin_int": start_from_int_0,  # 131796768/0x07db0f20
-                                # "end_int": end_from_int_0  # 131811120/0x07db4730   # Not used anymore
-                                "end_int": -1
-                            },
-                            # {
-                            #     "begin_int":  start_from_int_1,  # 131424672/0x07d561a0
-                            #     "end_int": end_from_int_1  # 132384996/0x07e408e4
-                            # }
-                        ]
-                    else:
-                        i_min_size = i_min_size_saved
-                        # All 'levelNN' files
-                        start_from_hex_0 = "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 3F 00 00 80 3F 00 00 80 3F 00 00 80 3F"  # ....Ç?..Ç?..Ç?..Ç?
-                        start_from_int_0 = get_address_from_binary(f, i_file, start_from_hex_0, '....Ç?..Ç?..Ç?..Ç?')
-                        allowed_ranges = [
-                            {
-                                "begin_int": start_from_int_0,  # 0
-                                "end_int": -1  # To the EOF
-                            }
-                        ]
+                # Restore original backup files in data dir before translate
+                print(f" • {bcolors.WARN}[Restore original backup files from '{DEFAULT_ZONA_BACKUP_DIR}' to '{DEFAULT_ZONA_DATA_DIR}'] ...{bcolors.ENDC}\n")
+                restore_files()
+                print(f" • {bcolors.OK}[Restore original backup files from '{DEFAULT_ZONA_BACKUP_DIR}' to '{DEFAULT_ZONA_DATA_DIR}'] OK{bcolors.ENDC}\n")
 
-                    # # BEGIN Not used anymore
-                    # with open(i_file, 'rb') as f:
-                    #     data_offset = f.read().find(bytes.fromhex(start_from_hex_0))
-                    #     if data_offset < 0:
-                    #         continue
-                    # data_offset_hex = "0x{:x}".format(data_offset)
-                    # data_offset_int = int(data_offset_hex, 16)
-                    # # data_offset_int = 0
-
-                    # # print(f"data_offset_hex={data_offset_hex}")
-                    # # print(f"data_offset_int={data_offset_int}")
-                    # # input(" Press Enter to continue...")
-                    # # sys.exit(0)
-                    # # END Not used anymore
+                print(f" • [Translate from 'en' to '{i_lang}' ({i_langs_index}/{i_langs_count})] ...\n")
                 
-                # If start address for searching in file is a valid address (not negative one)
-                if start_from_int_0 >= 0:
+                # BEGIN Translate to i_lang
+                
+                # Create relative translate dir for lang file destination
+                TRANSLATE_DIR_PATH = f"{DEFAULT_ZONA_TRANSLATE_DIR}/{i_lang}"
+                if not os_path.exists(TRANSLATE_DIR_PATH):
+                    os_makedirs(TRANSLATE_DIR_PATH)
+
+                # print
+                # print(f" • [Translate from 'en' to '{i_lang}'] ...")
+
+                # for i_file in i_files:
+                for i_file in tqdm(i_files):
+
+                    i_file_translated = f"{TRANSLATE_DIR_PATH}/{i_file}"
+                    i_file = f"{DEFAULT_ZONA_DATA_DIR}/{i_file}"
+                
+                    # print(f" • [Translate from 'en' to '{i_lang}'] {i_file} ...")
 
                     with open(i_file, 'rb') as f:
-                        f.seek(start_from_int_0)
-                        b = f.read()
-                        json_write_to = []
-                        
-                        for s in ascii_strings(b, n=i_min_size, start_from=start_from_int_0):
-                            
-                            break_requested = False
-                            # Check if we are in allowed range
-                            for range in allowed_ranges:
-                                if range['begin_int'] < 0:
-                                    break_requested = True
-                                # Break if string address not in allowed range
-                                if range['begin_int'] >= 0 and s.offset < range['begin_int']:
-                                    break_requested = True
-                                if range['end_int'] >= 0 and s.offset > range['end_int']:
-                                    break_requested = True
-                            if break_requested:
-                                break
+                        if i_file == 'resources.assets':
+                            # 'i_min_size' for 'resources.assets' cannot be too big. Some quests (as 'Explore ' one ) are truncated with non-ascii characters.
+                            if i_min_size > 6:
+                                i_min_size = 6
+                            # Only 'resources.assets' file
+                            start_from_hex_0 = "41 46 55 20 5F 4F 54 53 54 55 50 4E 49 4B"  # AFU _OTSTUPNIK
+                            start_from_int_0 = get_address_from_binary(f, i_file, start_from_hex_0, 'AFU _OTSTUPNIK')
+                            # end_from_hex_0 = "53 68 6F 6F 74 69 6E 67 20 73 66 78"  # Shooting sfx
+                            # end_from_int_0 = get_address_from_binary(f, i_file, end_from_hex_0, 'Shooting sfx')
+                            allowed_ranges = [
+                                {
+                                    "begin_int": start_from_int_0,  # 131796768/0x07db0f20
+                                    # "end_int": end_from_int_0  # 131811120/0x07db4730   # Not used anymore
+                                    "end_int": -1
+                                },
+                                # {
+                                #     "begin_int":  start_from_int_1,  # 131424672/0x07d561a0
+                                #     "end_int": end_from_int_1  # 132384996/0x07e408e4
+                                # }
+                            ]
+                        else:
+                            i_min_size = i_min_size_saved
+                            # All 'levelNN' files
+                            start_from_hex_0 = "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 3F 00 00 80 3F 00 00 80 3F 00 00 80 3F"  # ....Ç?..Ç?..Ç?..Ç?
+                            start_from_int_0 = get_address_from_binary(f, i_file, start_from_hex_0, '....Ç?..Ç?..Ç?..Ç?')
+                            allowed_ranges = [
+                                {
+                                    "begin_int": start_from_int_0,  # 0
+                                    "end_int": -1  # To the EOF
+                                }
+                            ]
 
-                            if 'resources.assets' in i_file:
-                                if not dialog_quest_only(s.s):
-                                    continue
+                        # # BEGIN Not used anymore
+                        # with open(i_file, 'rb') as f:
+                        #     data_offset = f.read().find(bytes.fromhex(start_from_hex_0))
+                        #     if data_offset < 0:
+                        #         continue
+                        # data_offset_hex = "0x{:x}".format(data_offset)
+                        # data_offset_int = int(data_offset_hex, 16)
+                        # # data_offset_int = 0
 
-                            if not dialog_exclude_lang(s.s, lang='de'):
-                                max_length = len(s.s)
-                                dialog_tr = dialog_translate(src=translator, dialog=s.s, to=i_lang)
-                                dialog_str = dialog_filter(dialog=dialog_tr, lang=i_lang, target_length=max_length)
-                                if dialog_str:
-                                    translated_size = len(dialog_str)
-                                    oversize = 'False'
-                                    if translated_size > max_length:
-                                        oversize = 'True'
-                                    # dialog maximum length is source length
-                                    dialog_str = dialog_str[:max_length]
-                                    # Fill dialog with whitespaces to match source length
-                                    dialog_str = dialog_str.ljust(max_length)
-                                    # Remove any unicode character
-                                    dialog_str = dialog_str.encode('ascii', 'ignore').decode()
-                                    # Calculate new size
-                                    new_size = len(dialog_str)
-                                    # Print result CSV
-                                    sep = ';'
-                                    # print(" {:s}{:1s}ASCII{:1s}0x{:x}{:1s}True{:1s}{:d}{:1s}{:d}{:1s}{:d}{:1s}{:s}{:1s}{:s}".format(i_file, sep, sep, s.offset, sep, sep, max_length, sep, translated_size, sep, new_size, sep, oversize, sep, dialog_str))
-                                    # print(" {:s}{:1s}ASCII{:1s}0x{:x}{:1s}{:s}".format(i_file, sep, sep, s.offset, sep, s.s))
-                                    # Set 'json_write_to' dict
-                                    address_hex = "0x{:x}".format(s.offset)
-                                    address_int = int(address_hex, 16)
-                                    json_write_to.append(
-                                        dict(
-                                            address_int=address_int,
-                                            address_hex=address_hex,
-                                            text=s.s,
-                                            text_size=max_length,
-                                            translation=dialog_str,
-                                            translation_size=new_size                                     
-                                        )
-                                    )    
+                        # # print(f"data_offset_hex={data_offset_hex}")
+                        # # print(f"data_offset_int={data_offset_int}")
+                        # # input(" Press Enter to continue...")
+                        # # sys.exit(0)
+                        # # END Not used anymore
                     
-                    # Print results
-                    # print(' ### BEGIN JSON ###')
-                    # print(json.dumps(json_write_to, indent=4))
-                    # print(' ### END JSON ###')
+                    # If start address for searching in file is a valid address (not negative one)
+                    if start_from_int_0 >= 0:
 
-                    # Error: bytes must be in range(0, 256) --> unicode somewhere in element['translation']
-                    # Backup i_file
+                        with open(i_file, 'rb') as f:
+                            f.seek(start_from_int_0)
+                            b = f.read()
+                            json_write_to = []
+                            
+                            for s in ascii_strings(b, n=i_min_size, start_from=start_from_int_0):
+                                
+                                break_requested = False
+                                # Check if we are in allowed range
+                                for range in allowed_ranges:
+                                    if range['begin_int'] < 0:
+                                        break_requested = True
+                                    # Break if string address not in allowed range
+                                    if range['begin_int'] >= 0 and s.offset < range['begin_int']:
+                                        break_requested = True
+                                    if range['end_int'] >= 0 and s.offset > range['end_int']:
+                                        break_requested = True
+                                if break_requested:
+                                    break
 
-                    # Copy original file in relative translate dir
-                    shutil.copyfile(i_file, i_file_translated)
+                                if 'resources.assets' in i_file:
+                                    if not dialog_quest_only(s.s):
+                                        continue
 
-                    # Translate file in relative translate dir
-                    with open(i_file_translated, 'rb+') as f:
-                        for element in json_write_to:
-                            # Convert ASCII string to binary representation
-                            binary_string = b''
-                            for ascii_char in element['translation']:
-                                binary_string += bytes([ord(ascii_char)])
-                            f.seek(element['address_int'])
-                            f.write(binary_string)
+                                if not dialog_exclude_lang(s.s, lang='de'):
+                                    max_length = len(s.s)
+                                    dialog_tr = dialog_translate(src=translator, dialog=s.s, to=i_lang)
+                                    dialog_str = dialog_filter(dialog=dialog_tr, lang=i_lang, target_length=max_length)
+                                    if dialog_str:
+                                        translated_size = len(dialog_str)
+                                        oversize = 'False'
+                                        if translated_size > max_length:
+                                            oversize = 'True'
+                                        # dialog maximum length is source length
+                                        dialog_str = dialog_str[:max_length]
+                                        # Fill dialog with whitespaces to match source length
+                                        dialog_str = dialog_str.ljust(max_length)
+                                        # Remove any unicode character
+                                        dialog_str = dialog_str.encode('ascii', 'ignore').decode()
+                                        # Calculate new size
+                                        new_size = len(dialog_str)
+                                        # Print result CSV
+                                        sep = ';'
+                                        # print(" {:s}{:1s}ASCII{:1s}0x{:x}{:1s}True{:1s}{:d}{:1s}{:d}{:1s}{:d}{:1s}{:s}{:1s}{:s}".format(i_file, sep, sep, s.offset, sep, sep, max_length, sep, translated_size, sep, new_size, sep, oversize, sep, dialog_str))
+                                        # print(" {:s}{:1s}ASCII{:1s}0x{:x}{:1s}{:s}".format(i_file, sep, sep, s.offset, sep, s.s))
+                                        # print(" {:s}{:1s}ASCII{:1s}0x{:x}{:1s}{:s}".format(i_file, sep, sep, s.offset, sep, dialog_str))
+                                        # Set 'json_write_to' dict
+                                        address_hex = "0x{:x}".format(s.offset)
+                                        address_int = int(address_hex, 16)
+                                        json_write_to.append(
+                                            dict(
+                                                address_int=address_int,
+                                                address_hex=address_hex,
+                                                text=s.s,
+                                                text_size=max_length,
+                                                translation=dialog_str,
+                                                translation_size=new_size
+                                            )
+                                        )    
+                        
+                        # Print results
+                        # print(' ### BEGIN JSON ###')
+                        # print(json.dumps(json_write_to, indent=4))
+                        # print(' ### END JSON ###')
 
-                    # print(f" • {bcolors.OK}[Translate from 'en' to '{i_lang}'] {i_file} OK{bcolors.ENDC}")
+                        # Error: bytes must be in range(0, 256) --> unicode somewhere in element['translation']
+                        # Backup i_file
 
-            # print
-            # print(f" • {bcolors.OK}[Translate from 'en' to '{i_lang}'] OK{bcolors.ENDC}")
+                        # Copy original file in relative translate dir
+                        shutil.copyfile(i_file, i_file_translated)
 
-            # END Translate to i_lang
+                        # Translate file in relative translate dir
+                        with open(i_file_translated, 'rb+') as f:
+                            for element in json_write_to:
+                                # Convert ASCII string to binary representation
+                                binary_string = b''
+                                for ascii_char in element['translation']:
+                                    binary_string += bytes([ord(ascii_char)])
+                                f.seek(element['address_int'])
+                                f.write(binary_string)
 
-            # All is OK!
-            print(f" • {bcolors.OK}[Translate from 'en' to '{i_lang}'] OK{bcolors.ENDC}\n")
+                        # # print(f" • {bcolors.OK}[Translate from 'en' to '{i_lang}'] {i_file} OK{bcolors.ENDC}")
 
-            # Copy translated files to default data dir
-            print(f" • {bcolors.WARN}[Copy translated files from '{TRANSLATE_DIR_PATH}' to '{DEFAULT_ZONA_DATA_DIR}'] ...{bcolors.ENDC}\n")
-            restore_files(src=TRANSLATE_DIR_PATH)
-            print(f" • {bcolors.OK}[Copy translated files from '{TRANSLATE_DIR_PATH}' to '{DEFAULT_ZONA_DATA_DIR}'] OK{bcolors.ENDC}\n")
+                # print
+                # print(f" • {bcolors.OK}[Translate from 'en' to '{i_lang}'] OK{bcolors.ENDC}")
+
+                # END Translate to i_lang
+
+                # All is OK!
+                print(f" • {bcolors.OK}[Translate from 'en' to '{i_lang}' ({i_langs_index}/{i_langs_count})] OK{bcolors.ENDC}\n")
+
+                # Copy translated files to default data dir
+                print(f" • {bcolors.WARN}[Copy translated files from '{TRANSLATE_DIR_PATH}' to '{DEFAULT_ZONA_DATA_DIR}'] ...{bcolors.ENDC}\n")
+                restore_files(src=TRANSLATE_DIR_PATH)
+                print(f" • {bcolors.OK}[Copy translated files from '{TRANSLATE_DIR_PATH}' to '{DEFAULT_ZONA_DATA_DIR}'] OK{bcolors.ENDC}\n")
 
             print(f"{bcolors.OK}")
             print(f" To activate translation:")
