@@ -5,8 +5,8 @@ Title : auto_ZO_translate.py
 Description : Script for translating dialogues and quest titles of the Steam game 'Z.O.N.A Origin' by AGaming+.
 Author: peurKe
 Creation Date: 2024-10-27
-Last Modified: 2024-10-28
-Version: 1.0
+Last Modified: 2024-10-31
+Version: 1.1
 License: MIT
 """
 
@@ -15,11 +15,12 @@ License: MIT
 # https://github.com/ssut/py-googletrans/issues/280
 # https://medium.com/analytics-vidhya/removing-stop-words-with-nltk-library-in-python-f33f53556cc1
 
+# pip install tqdm googletrans==3.1.0a0 legacy-cgi nltk unidecode pyinstaller
 # pip install tqdm
 # pip install googletrans==3.1.0a0
 # pip install legacy-cgi
 # pip install nltk
-# pip install unidecode (? voir si besoin avec import 'unicodedata' aulieu de 'import unicodedata')
+# pip install unidecode
 # pip install pyinstaller
 
 # Error: Time out --> Problem with google translator API = Relaunch script
@@ -29,7 +30,7 @@ License: MIT
 
 import argparse
 import sys
-from os import path as os_path, makedirs as os_makedirs, listdir as os_listdir
+from os import path as os_path, makedirs as os_makedirs, listdir as os_listdir, remove as os_remove
 import glob
 import re
 import time
@@ -41,22 +42,22 @@ import shutil
 import binascii
 from collections import namedtuple
 try:
-    # from nltk import download as nltk_download
     # from nltk.corpus import stopwords
+    from nltk import download as nltk_download
     from nltk.tokenize import word_tokenize
     from googletrans import Translator
 except Exception as e:
     print(f" Error: {e}")
-    input(" Press Enter to exit...")
+    input(f" Press Enter to exit...")
     sys.exit(-1)
 
 class bcolors:
-    CYAN = '\033[96m'
     OK = '\033[92m'
-    WARN = '\033[93m'
+    INFO = '\033[93m'
     FAIL = '\033[91m'
-    BOLD = '\033[1m'
+    ASK = '\033[96m'
     ENDC = '\033[0m'
+    NOTIF = '\033[42m'
 
 DEFAULT_FILES = [
     'level0', 'level1', 'level2', 'level3', 'level4', 'level5', 'level6', 'level7',
@@ -67,9 +68,11 @@ DEFAULT_FILES = [
 
 DEFAULT_ZONA_DIR_EXAMPLE = 'C:\\SteamLibrary\\steamapps\\common\\ZONAORIGIN'
 DEFAULT_ZONA_DATA_DIR = './ZONAORIGIN_Data'
-DEFAULT_ZONA_TRANSLATE_DIR = f"./auto_ZA_translate"
-DEFAULT_ZONA_BACKUP_DIR = f"./auto_ZA_translate/BACKUP"
+DEFAULT_ZONA_TRANSLATE_DIR = './auto_ZO_translate'
+DEFAULT_ZONA_TRANSLATE_SUCCEED_FILE = 'done.txt'
+DEFAULT_ZONA_BACKUP_DIR = './auto_ZO_translate/BACKUP'
 DEFAULT_ZONA_EXE_FILENAME = 'ZONAORIGIN.exe'
+DEFAULT_ZONA_GLOBAL_GM = 'globalgamemanagers'
 
 ASCII_BYTE = rb" #\/!\"'\(\)\+,\-\.0123456789:;<=>\?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 
@@ -98,65 +101,35 @@ CUSTOM_TARGET_STOPWORDS = {
     "en": [
         ['the', 'to', 'and', 'a', 'in', 'it', 'is', 'I', 'that', 'this', 'had', 'on', 'for', 'were', 'was']
     ],
-    # # BEGIN LAST STOPWORDS FR OK
-    # "fr": [
-    #     ['me', 'te', 'se', 'moi', 'toi', 'lui', 'leur', 'le', 'la', 'les', 'on', 'y', 'en', 'ce', 'cela', 'ça', 'celui', 'celle', 'ceux', 'celles', 'qui', 'que', 'quoi', 'dont', 'ou'],
-    #     ['a', 'alors', 'au', 'aucun', 'aussi', 'autre', 'avant', 'avec', 'avoir', 'bon', 'car', 'ces', 'ceux', 'chaque', 'comme', 'comment', 'dans', 'de', 'des', 'du', 'donc', 'elle', 'en', 'encore', 'entre', 'et', 'eux', 'faire', 'il', 'je', 'juste', 'la', 'le', 'les', 'leur', 'lui', 'mais', 'mes', 'moi', 'mon', 'ne', 'nos', 'notre', 'nous', 'par', 'pour', 'quand', 'sa', 'se', 'ses', 'son', 'sur', 'ta', 'te', 'tes', 'toi', 'ton', 'tout', 'tres', 'tu', 'un', 'une', 'vos', 'votre', 'vous'],
-    #     ['afin', 'apres', 'aujourd', 'aucune', 'auquel', 'aura', 'auront', 'aussi', 'autour', 'auxquelles', 'auxquels', 'autant', 'autres', 'avant', 'avec', 'c', 'ceci', 'celle', 'celles', 'celui', 'cent', 'cependant', 'certain', 'certaine', 'certaines', 'certains', 'cet', 'cette', 'ceux', 'chacun', 'chaque', 'chez', 'ci', 'cinq', 'combien', 'comment', 'comme', 'd', 'dans', 'de', 'dedans', 'dehors', 'depuis', 'des', 'deux', 'devrait', 'doit', 'donc', 'dont', 'douze', 'du', 'elle', 'elles', 'en', 'encore', 'entre', 'environ', 'est', 'et', 'etaient', 'etaient', 'etait', 'etant'],
-    #     ['etre', 'eu', 'fait', 'fais', 'faisaient', 'faites', 'fois', 'font', 'force', 'hors', 'ici', 'il', 'ils', 'je', 'jusqu', 'juste', 'l', 'la', 'laquelle', 'le', 'les', 'leur', 'leurs', 'longtemps', 'lors', 'lorsque', 'lui', 'ma', 'maint', 'mais', 'malgre', 'me', 'memes', 'moins', 'mon', 'moyen', 'ni', 'nombreuses', 'nombreux', 'notamment', 'notre', 'nous', 'nouveau', 'nul', 'on', 'ont', 'par', 'parce', 'parfois', 'parmi', 'part', 'pendant', 'personne', 'peu'],
-    #     ['peut', 'peuvent', 'plus', 'plusieurs', 'plutot', 'pour', 'pourquoi', 'qu', 'quand', 'que', 'quel', 'quelle', 'quelles', 'quels', 'qui', 'quoi', 'sa', 'sans', 'se', 'selon', 'serait', 'si', 'sien', 'sienne', 'siens', 'soi', 'soit', 'son', 'sont', 'sous', 'soyez', 'suffit', 'suis', 'sujet', 'sur', 'ta', 'tandis', 'tel', 'telle', 'telles', 'tels', 'tes', 'toi', 'ton', 'tous', 'tout', 'toutes', 'tres', 'tu', 'un', 'une', 'va', 'vers', 'vif', 'vifs', 'voir'],
-    #     ['vos', 'votre', 'vous', 'vu', 'y', 'a', 'afin', 'ailleurs', 'ainsi', 'ajoute', 'ajouter', 'alors', 'apres', 'aucun', 'aucune', 'aupres', 'auquel', 'aussi', 'autant', 'autour', 'aux', 'autres', 'avant', 'avec', 'avoir', 'ce', 'cela', 'celles', 'celui', 'cent', 'cependant', 'certains', 'ces', 'ceux', 'chaque', 'chez', 'comme', 'comment', 'd', 'dans', 'de', 'dedans', 'dehors', 'depuis', 'des', 'dix', 'doit', 'donc', 'dont', 'douze', 'du', 'elle', 'elles', 'en']
-    # ],
-    # # END LAST STOPWORDS FR OK
     "fr": [
-        # Manually added: 'd', 'une', 'mode'
+        # Manually added: 'une', 'contre', 'mode'
         # Manually removed: 'pas'
-        [ 'a', 'c', 'd', 'l', 'm', 'n', 's', 't', 'y', 'le', 'de', 'un', 'une', 'et', 'en', 'la', 'les', 'du', 'des', 'pour', 'dans', 'que', 'qui', 'il', 'elle', 'nous', 'vous', 'ils', 'ne' ],  # 1st set of stopwords
-        [ 'au', 'avec', 'sur', 'ce', 'sa', 'ses', 'son', 'mon', 'ma', 'mes', 'ton', 'ta', 'tes', 'ou', 'par', 'se', 'cette', 'cet', 'sont' ],   # 2nd set of stopwords
-        [ 'moi', 'toi', 'lui', 'elle', 'eux', 'leur', 'leurs', 'on', 'te', 'me', 'est', 'tous', 'toutes', 'ces', 'ceux', 'bien', 'mode' ],  # 3rd set of stopwords
-        [ 'ainsi', 'cela', 'soit', 'comme', 'encore', 'alors', 'avant', 'depuis', 'chez', 'tres', 'peu', 'autre', 'entre', 'sans', 'apres', 'donc', 'meme', 'vers' ],  # 4th set of stopwords
-        [ 'autres', 'aucun', 'aucune', 'chacun', 'chaque', 'quel', 'quelle', 'quels', 'quelles', 'quelque', 'quelques', 'souvent', 'tandis', 'toutefois', 'contre', 'hors', 'selon' ],  # 5th set of stopwords
-        [ 'desormais', 'parfois', 'partout', 'pres', 'loin', 'dela', 'autant', 'certain', 'certaines', 'certains', 'dessus', 'dessous', 'ci', 'pourquoi', 'lorsque', 'comment' ]  # 6th set of stopwords
+        ['a', 'abord', 'alors', 'aucun', 'aucune', 'avec', 'avoir', 'car', 'ce', 'cela', 'ces', 'cette', 'contre', 'dans', 'de', 'des', 'du', 'en', 'et', 'il', 'ils', 'je', 'la', 'le', 'les', 'mais', 'me', 'mon', 'ne', 'ni', 'nous', 'on', 'ou', 'par', 'pour', 'que', 'qui', 'quoi', 'sa', 'si', 'son', 'sur', 'ta', 'te', 'toi', 'ton', 'un', 'une', 'vous', 'y', 'dans', 'pouvez', 'peut', 'serait', 'aura', 'doit', 'etre']
     ],
     "cs": [
-        [ 'me', 'te', 'se', 'ja', 'ty', 'on', 'jej', 'to', 'ta', 'ty', 'my', 'vy', 'oni', 'to', 'to', 'to', 'ten', 'ta', 'ti', 'kdo', 'co', 'co', 'o', 'nebo',
-          'a', 'ale', 'ani', 'bude', 'by', 'byl', 'co', 'do', 'i', 'jak', 'jako', 'je', 'jeji', 'jen', 'jsem', 'jsme', 'jsou', 'jste', 'k', 'kdyz', 'mam', 'ma', 'musi', 'na', 'nad', 'nebo', 'po', 'pro', 'se', 'si', 'tak', 'ten', 'to', 'tu', 'tuto', 'ty', 'uz', 'v', 've', 'z', 'za',
-          'aby', 'aj', 'anebo', 'asi', 'atd', 'avsak', 'b', 'bez', 'byla', 'byli', 'bylo', 'byt', 'coz', 'dale', 'dalsi', 'dva', 'dve', 'jejich', 'jestli', 'jeste', 'jinak', 'kazdy', 'kde', 'kdo', 'kdy', 'ke', 'ktera', 'ktere', 'ktery', 'kvuli', 'mame', 'mate', 'me', 'muj', 'mne', 'nam', 'nami', 'naproti', 'nejvice', 'nekde', 'nekdo', 'nic', 'nich', 'nim', 'ni', 'nejaky', 'nektery',
-          'ani', 'aspon', 'budou', 'coz', 'cz', 'den', 'deset', 'devet', 'docela', 'dvacet', 'dvanact', 'jenom', 'jich', 'jiz', 'jini', 'jiny', 'kdyby', 'kolik', 'mezi', 'mit', 'moje', 'nejsou', 'nej', 'nekolik', 'nestaci', 'nez', 'nemu', 'nemuz', 'on', 'ona', 'oni', 'ono', 'ony', 'pod', 'podle', 'proto', 's', 'takze', 'tato', 'tenhle', 'tento', 'tohle', 'totiz', 'tvuj', 'tyhle', 'tyto', 'veskery', 'vlastne',
-          'abych', 'abychom', 'abys', 'abyste', 'ak', 'aniz', 'apod', 'asi', 'behem', 'coby', 'cim', 'cimz', 'jenz', 'ktery', 'ktery', 'ktery', 'li', 'mezi', 'muze', 'nahle', 'naopak', 'obe', 'ostatne', 'par', 'podel', 'porad', 'prvni', 'rovne', 'sam', 'sam', 'shora', 'spis', 'stezi', 'sve', 'svuj', 'takhle', 'tamhle', 'takovy', 'takrka', 'tohle', 'tudiz', 'vcelku', 'vetsina', 'vubec', 'vetsinou',
-          'ackoli', 'avsak', 'budes', 'budu', 'byti', 'casto', 'dle', 'docela', 'iz', 'kamz', 'kdez', 'kdyzkoliv', 'kol', 'krom', 'lec', 'leda', 'malo', 'mati', 'mozno', 'nadale', 'nac', 'nekam', 'nekterych', 'nektery', 'nekteryz', 'nekudy', 'nemu', 'odtamtud', 'onem', 'prave', 'prostrednictvim', 'pripadne', 'pricemz', 'sam', 'skrz', 'smer', 'tamtudy', 'vne', 'vzdyť', 'zkratka', 'znovu', 'zpet', 'zticha' ]
+        # Manually added: 'a', 'proti', 'rezim'
+        # Manually removed: 'ne'
+        ['a', 'ale', 'aniz', 'az', 'bude', 'by', 'byl', 'byla', 'bylo', 'byly', 'co', 'do', 'jak', 'jako', 'je', 'jedna', 'jeste', 'jeho', 'jejich', 'jsem', 'jsi', 'k', 'kdyz', 'ktera', 'ktere', 'ktery', 'ma', 'mam', 'mit', 'muze', 'my', 'na', 'nebo', 'nekdo', 'neni', 'o', 'od', 'ona', 'oni', 'po', 'pod', 'pokud', 'pro', 'proti', 'rezim', 'se', 'si', 'svuj', 'svoje', 'ta', 'tak', 'ten', 'to', 'tu', 'uz', 'vam', 'vas', 'vy', 'z', 'za', 'ze', 'musite', 'musi', 'bude']
     ],
     "it": [
-        [ 'di', 'a', 'da', 'in', 'che', 'e', 'il', 'la', 'un', 'una', 'per', 'con', 'su', 'io', 'tu', 'lui', 'lei', 'noi', 'voi', 'loro',
-          'gli', 'le', 'lo', 'mi', 'ti', 'ci', 'vi', 'questo', 'quello', 'cui', 'ma', 'o',
-          'quanto', 'quella', 'mio', 'tuo', 'suo', 'nostro', 'vostro', 'la', 'qui', 'già', 'sia', 'cosi',
-          'dove', 'perche', 'ancora', 'sotto', 'sopra', 'tra', 'fra', 'se', 'quando', 'come', 'poi', 'dopo',
-          'mentre', 'davanti', 'contro', 'verso', 'intanto', 'quindi', 'ora', 'poco', 'molto', 'tanto', 'altro', 'sempre', 'alcuno', 'alcuna', 'alcuni', 'alcune', 'al', 'allo', 'agli', 'dagli', 'dagli', 'agli', 'dagli',
-          'affinche', 'alcuno', 'allorche', 'benche', 'ciascuno', 'cosicche', 'difatti', 'gia', 'neanche', 'nemmeno', 'neppure', 'ovunque', 'percio', 'pero', 'poiche', 'qualunque', 'quindi', 'siccome', 'talche', 'tuttavia' ]
+        # Manually added: 'a', 'contro', 'modalita'
+        # Manually removed: 'non'
+        ['a', 'ad', 'al', 'alla', 'alle', 'altro', 'ancora', 'anche', 'aspetta', 'avere', 'che', 'come', 'con', 'contro', 'cosa', 'da', 'dai', 'dal', 'de', 'di', 'dove', 'e', 'fai', 'fara', 'gia', 'ha', 'hanno', 'il', 'in', 'io', 'la', 'le', 'lo', 'loro', 'ma', 'me', 'mi', 'mio', 'modalita', 'ne', 'noi', 'nostro', 'o', 'per', 'piu', 'quale', 'quando', 'che', 'chi', 'sono', 'su', 'tra', 'tu', 'un', 'una', 'voi', 'sarebbe', 'deve', 'puo']
     ],
     "es": [
-        [ 'de', 'la', 'que', 'el', 'en', 'y', 'a', 'los', 'se', 'del', 'las', 'un', 'por', 'con', 'una', 'su', 'para', 'es', 'al', 'lo',
-          'como', 'mas', 'pero', 'sus', 'le', 'ya', 'o', 'este', 'si', 'porque', 'esta', 'entre', 'cuando', 'muy', 'sin', 'sobre', 'tambien',
-          'todo', 'nos', 'algo', 'poco', 'mismo', 'ella', 'ellos', 'uno', 'otro', 'ese', 'aquel', 'cual', 'nada', 'cada', 'estos', 'algun', 'algunos',
-          'aqui', 'alli', 'alla', 'antes', 'despues', 'tal', 'donde', 'quien', 'cuyo', 'alrededor', 'cerca', 'lejos', 'durante', 'contra', 'segun', 'hasta', 'aunque',
-          'ademas', 'demasiado', 'ambos', 'incluso', 'algunas', 'mucho', 'pues', 'cuales', 'cierto', 'hacia', 'ningun', 'otros', 'tanto', 'cuanto', 'tantos', 'talvez', 'quizas',
-          'usted', 'vosotros', 'vuestro', 'mio', 'tuyo', 'suyo', 'nuestro', 'mientras', 'acerca', 'durante', 'via', 'respecto', 'mediante', 'pese', 'junto', 'apenas', 'siempre', 'ninguno', 'alguien', 'algunas', 'cualquiera' ]
+        # Manually added: 'a', 'contra', 'modo'
+        # Manually removed: 'no'
+        ['a', 'al', 'ante', 'bajo', 'como', 'con', 'contra', 'cuanto', 'de', 'del', 'desde', 'donde', 'durante', 'el', 'ella', 'ellos', 'en', 'entre', 'es', 'esta', 'estoy', 'ha', 'hace', 'hay', 'lo', 'los', 'me', 'mi', 'mismo', 'modo', 'muy', 'nada', 'nos', 'nuestro', 'o', 'para', 'pero', 'por', 'que', 'quien', 'si', 'sin', 'sobre', 'su', 'sus', 'te', 'tu', 'un', 'una', 'y']
     ],
     "ro": [
-        ['si', 'in', 'pe', 'cu', 'de', 'la', 'un', 'o', 'pentru', 'este', 'sunt', 'ca', 'sa', 'mai', 'dar', 'cel', 'oare', 'ori', 'fie'],
-        ['care', 'acest', 'acea', 'aceasta', 'aceste', 'acestia', 'acelasi', 'altii', 'astfel', 'cand', 'cat', 'tot', 'fi', 'doar', 'intre', 'din', 'fara', 'daca'],
-        ['cum', 'unde', 'acei', 'ceva', 'acolo', 'altceva', 'cineva', 'nimic', 'fiecare', 'altul', 'parca', 'cam', 'deci', 'aceasta', 'acestea', 'asa', 'acum', 'cine'],
-        ['candva', 'anumite', 'aproape', 'pana', 'inca', 'totusi', 'desi', 'incat', 'decate', 'caci', 'decand', 'destul', 'dela', 'langa', 'mereu', 'oricum', 'undeva'],
-        ['toate', 'asemenea', 'din cauza', 'astazi', 'ieri', 'maine', 'impreuna', 'pentru', 'deoarece', 'sub', 'prin', 'astfel incat', 'cui', 'oricine', 'fiecare', 'unii'],
-        ['cumva', 'acestora', 'acelor', 'asa cum', 'inclusiv', 'printre', 'candva', 'destule', 'atunci', 'cativa', 'oricare', 'totdeauna', 'vreo', 'aproximativ', 'exceptand', 'adesea', 'candva', 'spre', 'afara']
+        # Manually added: 'a', 'impotriva', 'tryb'
+        # Manually removed: 'nu'
+        ['a', 'acesta', 'aceste', 'adica', 'altceva', 'altul', 'am', 'an', 'as', 'atunci', 'ba', 'bai', 'bi', 'de', 'decat', 'din', 'dintre', 'este', 'eu', 'fara', 'fie', 'fiecare', 'fiecare', 'in', 'impotriva', 'la', 'ma', 'me', 'mi', 'mii', 'mod', 'o', 'pe', 'poate', 'propria', 'propriile', 'sau', 'se', 'si', 'sunt', 'tine', 'tu', 'un', 'una', 'vor', 'va']
     ],
     "pl": [
-        [ 'a', 'w', 'z', 'do', 'na', 'i', 'oraz', 'to', 'jest', 'by', 'jak', 'co', 'ze', 'czy', 'on', 'ona', 'my', 'wy', 'oni',
-          'tam', 'ten', 'ta', 'nas', 'was', 'od', 'za', 'po', 'przez', 'wtedy', 'gdzie', 'kiedy', 'jako', 'bylo', 'bym', 'byc', 'w', 'dla',
-          'moj', 'twoj', 'jego', 'ich', 'nasz', 'tego', 'taki', 'wszystko', 'wiele', 'dosc', 'wszystkich', 'kazdy', 'nigdy', 'nieco', 'niezle', 'czyli', 'mniej', 'raczej',
-          'ale', 'lecz', 'poniewaz', 'chociaz', 'zatem', 'mimo', 'zawsze', 'teraz', 'nadal', 'jakos', 'wiecej', 'ktory', 'ktora', 'wszyscy', 'wszystkie', 'oby', 'a',
-          'tylko', 'jeszcze', 'inny', 'wszelki', 'gdziekolwiek', 'ktokolwiek', 'jakikolwiek', 'ponad', 'czyz', 'wczesniej', 'na pewno',
-          'z', 'o', 'przy', 'na', 'od', 'mi', 'nim', 'swoje', 'swoj', 'tak', 'trzeba', 'zbytnio', 'obok', 'ponizej', 'zgodnie', 'czym', 'zreszta' ]
+        # Manually added: 'a', 'impotriva', 'mod'
+        # Manually removed: 'nu'
+        ['a', 'ale', 'by', 'c', 'co', 'd', 'da', 'dla', 'do', 'i', 'jak', 'je', 'jeden', 'jedna', 'kiedy', 'ktory', 'moze', 'na', 'ni', 'o', 'od', 'ona', 'oni', 'po', 'pomiedzy', 'przeciwko', 'przed', 'przy', 'sa', 'si', 'tak', 'to', 'tryb', 'tu', 'w', 'wszystko', 'z', 'za']
     ]
 }
 
@@ -204,12 +177,15 @@ RESTORE_SPECIFIC_WORDS = {
         # { "from": " >", "to": ">" },
         # { "from": " <", "to": "<" },
         # { "from": "> ", "to": ">" }, # </color>- | </color>:
+        { "from": "  ", "to": " " },
         { "from": " # ", "to": "#" },
         { "from": " :", "to": ":" },
         { "from": " ,", "to": "," },
         { "from": " .", "to": "." },
         { "from": " !", "to": "!" },
         { "from": " ?", "to": "?" },
+        { "from": " ’’ ", "to": " " },
+        { "from": "’’", "to": "'" },
         { "from": " ’ ", "to": " " },
         { "from": " ' ", "to": " " },
         { "from": "’", "to": "'" },
@@ -217,6 +193,7 @@ RESTORE_SPECIFIC_WORDS = {
         # { "from": "`", "to": "" }  # <color>``X``</color> --> <color>X</color>
     ]
 }
+
 
 def is_dialog_string(dialog):
     # Exclude string containing only whitespace
@@ -239,6 +216,19 @@ def is_dialog_string(dialog):
         return False
     return True
 
+
+def ascii_strings_version(buf):
+    # Search for version '0.0NN' pattern
+    reg = rb"(0\.0[0-9][0-9])"
+    ascii_re = re.compile(reg)
+    for match in ascii_re.finditer(buf):
+        ascii_string = match.group().decode("ascii")
+        ascii_address = match.start()
+        yield String(ascii_string, ascii_address)
+        # Only the first one
+        break
+
+
 def ascii_strings(buf, n=4, start_from=0):
     reg = rb"([%s]{%d,})" % (ASCII_BYTE, n)
     ascii_re = re.compile(reg)
@@ -249,6 +239,7 @@ def ascii_strings(buf, n=4, start_from=0):
             continue
         ascii_address = start_from + match.start()
         yield String(ascii_string, ascii_address)
+
 
 def dialog_exclude_lang(dialog, lang='de', skip=False):
     if skip:
@@ -268,6 +259,7 @@ def dialog_exclude_lang(dialog, lang='de', skip=False):
         return True
     return False
 
+
 def remove_specials(text):
     # return text.replace('"', '')
     # Replace special characters with one whitepace (can generate double whitespace)
@@ -276,10 +268,12 @@ def remove_specials(text):
     text = text.replace('  ', ' ')
     return text
 
+
 def replace_accents(text):
     # text = unicodedata.normalize('NFKD', text)
     # return "".join([c for c in text if not unicodedata.combining(c)])
     return unidecode(text)
+
 
 def restore_translated_words(text, lang='en'):
     for restore_word in RESTORE_SPECIFIC_WORDS[lang]:
@@ -290,15 +284,13 @@ def restore_translated_words(text, lang='en'):
         text = pattern.sub(restore_word['to'], text)
     return text
 
+
 def dialog_filter(dialog, lang='en', target_length=0):
     # Preserve <color=#hhhhhh></color> tags
     if '<color' in dialog:
         if '</color>' in dialog:
             sep = '</color>'
             dialog_list = dialog.split(sep)
-        # elif '</color>' in dialog:
-        #     sep = '</color>'
-        #     dialog_list = dialog.split(sep)
         else:
             # No </color> tag associated to existing <color=#hhhhhh> tag, so no translate is needed
             return dialog
@@ -316,22 +308,25 @@ def dialog_filter(dialog, lang='en', target_length=0):
     # Remove all special characters
     dialog = remove_specials(dialog)
 
-    # Split text to a list of words
-    tokens = word_tokenize(dialog)
-    
     #  This list will grow with successives stopwords list
     all_requested_stopwords = []
+
     # Remove stop words
+    index_stopword = 0
     for requested_stopwords in CUSTOM_TARGET_STOPWORDS[lang]:
+        # Split text to a list of words
+        tokens = word_tokenize(dialog)
+        # Get stopwords
         all_requested_stopwords.extend(requested_stopwords)
+        # Filter stopwords
         dialog_filtered_list = [t for t in tokens if t.lower() not in all_requested_stopwords]
+        # Recreate dialog
         dialog = ' '.join(dialog_filtered_list)
-        # print(dialog)
+        # # DEBUG
+        # print(f"[{index_stopword}][{len(dialog)}] {dialog}")
+        index_stopword += 1
         # Current stopwords set is not enough, go to next stopwords set
-        if len(dialog) > target_length:
-            tokens = word_tokenize(dialog)
-            continue
-        else:
+        if len(dialog) <= target_length:
             break
     # Restore specific words in translated lang
     dialog = restore_translated_words(dialog, lang=lang)
@@ -339,15 +334,13 @@ def dialog_filter(dialog, lang='en', target_length=0):
     dialog = restore_translated_words(dialog, lang='all')
     return f"{color}{sep}{dialog}"
 
+
 def dialog_translate(src, dialog, to='fr'):
     # Preserve <color=#hhhhhh></color> tags
     if '<color' in dialog:
         if '</color>' in dialog:
             sep = '</color>'
             dialog_list = dialog.split(sep)
-        # elif '</color>' in dialog:
-        #     sep = '</color>'
-        #     dialog_list = dialog.split(sep)
         else:
             # No </color> tag associated to existing <color=#hhhhhh> tag, so no translate is needed
             return dialog
@@ -365,6 +358,7 @@ def dialog_translate(src, dialog, to='fr'):
     # Translate dialog string
     dialog =  src.translate(dialog, dest=to).text
     return f"{color}{sep}{dialog}"
+
 
 def dialog_quest_only(dialog):
     to_include = [
@@ -384,45 +378,57 @@ def dialog_quest_only(dialog):
         return True
     return False
 
-def get_address_from_binary(file_desc, file, search_hex, search_txt):
+
+def get_address_from_binary(file_desc, file, search_hex, label):
     file_desc.seek(0)
-    offset_int = file_desc.read().find(bytes.fromhex(search_hex))
+    try:
+        offset_int = file_desc.read().find(bytes.fromhex(search_hex))
+    except:
+        printc(f" Error: {e} during search for '{label}' in '{file}' binary file\n", bcolors.FAIL)
+        sys.exit(-1)
     return offset_int
 
-def backup_files():
-    print(f" • [Create backup in '{DEFAULT_ZONA_BACKUP_DIR}/' directory] ...")
-    os_makedirs(DEFAULT_ZONA_BACKUP_DIR)
+
+def backup_files(version):
+    backup_dir = f"{DEFAULT_ZONA_BACKUP_DIR}_{version}"
+    printc(f" • [Create backup in '{backup_dir}/' directory] ...\n", bcolors.INFO)
+    os_makedirs(backup_dir)
     # All 'levelNN' original files
     files_to_copy = [os_path.join(DEFAULT_ZONA_DATA_DIR, f) for f in os_listdir(DEFAULT_ZONA_DATA_DIR) if f.startswith('level') and not f.endswith('.resS')]
     # Unique 'resources.assets' original file
     files_to_copy.append(f"{DEFAULT_ZONA_DATA_DIR}/resources.assets")
     # Copy all original files in backup directory
     for file in files_to_copy:
-        backup_file = os_path.join(DEFAULT_ZONA_BACKUP_DIR, os_path.basename(file))
+        backup_file = os_path.join(backup_dir, os_path.basename(file))
         shutil.copy2(file, backup_file)
-    print(f" • {bcolors.OK}[Create backup in '{DEFAULT_ZONA_BACKUP_DIR}/' directory] OK{bcolors.ENDC}\n")
+    printc(f" • [Create backup in '{backup_dir}/' directory] OK\n", bcolors.OK)
 
-def restore_files(src=DEFAULT_ZONA_BACKUP_DIR):
-    print(f" • [Restore files from '{src}/' directory to '{DEFAULT_ZONA_DATA_DIR}/'] ...")
+
+def restore_files(version=None, src=DEFAULT_ZONA_BACKUP_DIR):
+    if version:
+        src = f"{DEFAULT_ZONA_BACKUP_DIR}_{version}"
+
+    printc(f" • [Restore files from '{src}/' directory to '{DEFAULT_ZONA_DATA_DIR}/'] ...\n", bcolors.INFO)
     if not os_path.exists(src):
-        print(f" • {bcolors.FAIL}[Restore files from '{src}/' directory impossible because directory does not exist] Failed{bcolors.ENDC}\n")
+        printc(f" • [Restore files from '{src}/' directory impossible because directory does not exist] Failed\n", bcolors.FAIL)
         if src == DEFAULT_ZONA_BACKUP_DIR:
-            print(f" {bcolors.WARN}Tip: Use the Steam 'Check integrity of game files' button located in 'Installed files' tab in the Z.O.N.A Origin's game properties.{bcolors.ENDC}\n")
-        input(" Press Enter to exit...\n")
+            printc(f" Tip: Use the Steam 'Check integrity of game files' button located in 'Installed files' tab in the Z.O.N.A Origin's game properties.\n", bcolors.INFO)
+        inputc(f" Press Enter to exit...\n", bcolors.ASK)
         sys.exit(-1)
 
     # All backup files
     files_to_copy = [os_path.join(src, f) for f in os_listdir(src)]
     files_count = len(files_to_copy)
     if not files_count:
-        print(f" {bcolors.FAIL}Error: There is {files_count} file to restore from '{src}/' directory.{bcolors.ENDC}\n")
-        input(" Press Enter to exit...\n")
+        printc(f" Error: There is {files_count} file to restore from '{src}/' directory.\n", bcolors.FAIL)
+        inputc(f" Press Enter to exit...\n", bcolors.ENDC)
         sys.exit(-1)
     # Copy all backup files in data directory
     for file in files_to_copy:
         data_file = os_path.join(DEFAULT_ZONA_DATA_DIR, os_path.basename(file))
         shutil.copy2(file, data_file)
-    print(f" • {bcolors.OK}[Restore {files_count} files from '{src}/' directory to '{DEFAULT_ZONA_DATA_DIR}/'] OK{bcolors.ENDC}\n")
+    printc(f" • [Restore {files_count} files from '{src}/' directory to '{DEFAULT_ZONA_DATA_DIR}/'] OK\n", bcolors.OK)
+
 
 def check_all_in_langs(text):
     if 'all' in text:
@@ -430,65 +436,104 @@ def check_all_in_langs(text):
     return text
 
 
+def translate_ended_message():
+    print(f" To play with this translation:")
+    print(f"    1. Just launch 'Z.O.N.A Origin' game from Steam as usual.")
+    print(f"    2. Be sure to select 'English' language in 'Z.O.N.A Origin' game's settings.\n")
+    printc(f"                                                                                                         ", bcolors.NOTIF)
+    printc(f"    /!\\ Over the next few days:                                                                          ", bcolors.NOTIF)
+    printc(f"        If 'Z.O.N.A Origin' no longer launches correctly or if a new update has been made by AGaming+    ", bcolors.NOTIF)
+    printc(f"        You will need to run this script again to update the translation.                                ", bcolors.NOTIF)
+    printc(f"                                                                                                         ", bcolors.NOTIF)
+    print()
+
+def printc(msg, c=None):
+    if not c:
+        print(msg)
+    else:
+        print(f"{c}{msg}{bcolors.ENDC}")
+
+
+def inputc(prompt, c=None):
+    if not c:
+        input(msg)
+    else:
+        input(f"{c}{prompt}{bcolors.ENDC}")
+
+
 def main():
+
     try:
         if not os_path.exists(DEFAULT_ZONA_EXE_FILENAME):
-            print(f" {bcolors.FAIL}")
-            print(f" Error: Move this script in the same directory as the 'ZONAORIGIN.exe' executable file (usually in the '{DEFAULT_ZONA_DIR_EXAMPLE}' directory).\n")
-            print(f" Then run this moved script again.")
-            print(f" {bcolors.ENDC}\n")
+            printc(f" Error: Move this script in the same directory as the 'ZONAORIGIN.exe' executable file (usually in the '{DEFAULT_ZONA_DIR_EXAMPLE}' directory).\n", bcolors.FAIL)
+            printc(f" Then run this moved script again.", bcolors.FAIL)
             sys.exit(-1)
 
         argparser = argparse.ArgumentParser()
-        argparser.add_argument("-l", "--langs", type=str, default='empty', choices=['empty', 'all', 'fr', 'cs', 'it', 'es', 'ro', 'pl'], help="languages to translate to. if more than one language then '--langs' parameter must be comma separated (eg. 'fr,cs')")
-        argparser.add_argument("-f", "--files", type=str, default='empty', help="comma separated str. Default is with all 'levelNN' and 'resources.assets' files. if '--file' is specified then '--files' parameter must be comma separated (eg. 'level7,level11')")
-        argparser.add_argument("-s", "--min-size", type=int, default=18, help="minimum size for string to translate is set to 18 (to avoid <color></color> tags)")
-        argparser.add_argument("-r", "--restore", action='store_true', help="restore backup files (reset)")
-
+        argparser.add_argument("-l", "--langs", type=str, default='empty', choices=['empty', 'all', 'fr', 'cs', 'it', 'es', 'ro', 'pl'], help="Languages to translate to. if more than one language then '--langs' parameter must be comma separated (eg. 'fr,cs')")
+        argparser.add_argument("-f", "--files", type=str, default='empty', help="Comma separated str. Default is with all 'levelNN' and 'resources.assets' files. if '--file' is specified then '--files' parameter must be comma separated (eg. 'level7,level11')")
+        argparser.add_argument("-s", "--min-size", type=int, default=18, help="Minimum size for string to translate is set to 18 (to avoid <color></color> tags)")
+        argparser.add_argument("-r", "--restore", action='store_true', help="Restore backup files (reset)")
+        argparser.add_argument("-rv", "--restore-version", type=str, default=None, help="Specify the '0.0NN' patch version to restore. Default will be the current version. (reset)")
+        argparser.add_argument("--force", action='store_true', help=f"Force translate even if translated files are already existing in '{DEFAULT_ZONA_TRANSLATE_DIR}/' directory")
+        
         args = argparser.parse_args()
 
         i_langs = args.langs.split(',')
         i_langs = check_all_in_langs(i_langs)
+        i_force = args.force
         i_files = args.files.split(',')
         i_min_size = args.min_size
         i_restore = args.restore
+        i_restore_version = args.restore_version
+
+        i_file_ggm = f"{DEFAULT_ZONA_DATA_DIR}/{DEFAULT_ZONA_GLOBAL_GM}"
+        current_version_patch = None
+        with open(i_file_ggm, 'rb') as f:
+            f.seek(0)
+            b = f.read()
+            # Search for first '0.0NN' version pattern
+            for version in ascii_strings_version(b):
+                current_version_patch = version.s
+
+        if current_version_patch is None:
+            printc(f" No '0.0NN' version patch found in '{i_file_ggm}' binary file.\n", bcolors.FAIL)
+            inputc(f" Press Enter to exit...\n", bcolors.ASK)
+            sys.exit(1)
 
         # RESTORE: Create backup file in backup directory if not already existing
         if i_restore:
-            if os_path.exists(DEFAULT_ZONA_BACKUP_DIR):
+            print(f" /// RESTORATION:\n")
+            if i_restore_version:
+                restore_version = i_restore_version
+            else:
+                restore_version = current_version_patch
+            restore_dir = f"{DEFAULT_ZONA_BACKUP_DIR}_{restore_version}"
+            if os_path.exists(restore_dir):
                 restore = ''
                 while restore not in ['y', 'n']:
-                    restore = str(input(f"{bcolors.CYAN}Confirm you want to restore backup files (y/n): {bcolors.ENDC}")).lower().strip()
+                    restore = str(inputc(f" Confirm you want to restore all '{restore_version}' backup binary files (y/n):", bcolors.ASK)).lower().strip()
                 if restore == 'y':
-                    restore_files()
+                    restore_files(current_version_patch)
             else:
-                print(f" • {bcolors.FAIL}[Restore files from '{DEFAULT_ZONA_BACKUP_DIR}/' directory impossible because directory does not exist] Failed{bcolors.ENDC}\n")
-                print(f" {bcolors.WARN}Tip: Use the Steam 'Check integrity of game files' button located in 'Installed files' tab in the Z.O.N.A Origin's game properties.{bcolors.ENDC}\n")
-                input(" Press Enter to exit...\n")
+                printc(f" • [Restore all binary files impossible because there is no backup for '{restore_version}' version] Failed\n", bcolors.FAIL)
+                printc(f" Tip: Use the Steam 'Check integrity of game files' button located in 'Installed files' tab in the Z.O.N.A Origin's game properties to restore original binary files.\n", bcolors.INFO)
+                inputc(f" Press Enter to exit...\n", bcolors.ASK)
                 sys.exit(1)
 
         # TRANSLATE
         else:
-            print(f" {bcolors.WARN}")
-            print(f" // PREREQUISITES:")
-            print("    • Your 'Z.O.N.A Origin' game must be up to date.")
-            print("    • You must authorise this script in your firewall (API requests from the Online Google translator are required).\n")
-            print("    Press Ctrl+C to exit if you need to update 'Z.O.N.A Origin' game before translate...")
-            input("    Press Enter to translate 'Z.O.N.A Origin' game...")
-            print(f" {bcolors.ENDC}")
+            print(" /// PREREQUISITES:\n")
+            printc("    • Your 'Z.O.N.A Origin' game must be up to date.", bcolors.INFO)
+            printc("    • You must authorise this script in your firewall (API requests to Google's online translator are required).\n", bcolors.INFO)
+            printc(" Press Ctrl+C to exit if you need to update 'Z.O.N.A Origin' game before translate...", bcolors.ASK)
+            inputc(" Press Enter to translate 'Z.O.N.A Origin' game...", bcolors.ASK)
 
             # BEGIN GUI execution
-            # if not i_restore:
-            #     restore = ''
-            #     while restore not in ['y', 'n']:
-            #         restore = str(input(f" {bcolors.CYAN}Do you want to restore backup files before translate ? (y/n): {bcolors.ENDC}")).lower().strip()
-            #     if restore == 'y':
-            #         restore_files()
-
             if i_langs == ['empty']:
                 i_langs = ''
                 while i_langs not in ['all', 'fr', 'cs', 'it', 'es', 'ro', 'pl']:
-                    i_langs = str(input(f" {bcolors.CYAN}Language to translate to (all|fr|cs|it|es|ro|pl): {bcolors.ENDC}")).lower().strip()
+                    i_langs = str(inputc(f" Language to translate to (all|fr|cs|it|es|ro|pl): ", bcolors.ASK)).lower().strip()
                 i_langs = i_langs.split(',')
                 i_langs = check_all_in_langs(i_langs)
             # END GUI execution
@@ -500,32 +545,39 @@ def main():
             if i_files == ['empty']:
                 i_files = DEFAULT_FILES
 
-            print(f" {bcolors.WARN}")
-            print(f" // PARAMETERS:")
-            print(f"    • translate from .................... : 'en'")
-            print(f"    • translate to ...................... : '{i_langs}'")
-            print(f"    • minimum size string to translate .. : {i_min_size}")
-            print(f"    • files to translate ................ : {i_files}\n")
-            print(f" {bcolors.ENDC}")
+            print()
+            print(f" /// PARAMETERS:\n")
+            printc(f"    • Translate from .................... : 'en'", bcolors.INFO)
+            printc(f"    • Translate to ...................... : '{i_langs}'", bcolors.INFO)
+            printc(f"    • Minimum size string to translate .. : {i_min_size}", bcolors.INFO)
+            printc(f"    • Binary files to translate ......... : {i_files}\n", bcolors.INFO)
 
             # Download nltk 'stopwords' and 'punkt_tab'
             # nltk_download('stopwords')
+            # Download nltk 'punkt' and 'punkt_tab'
+            # nltk_download('punkt')
             # nltk_download('punkt_tab')
             # stops = set(stopwords.words('german'))
             # stops = set(stopwords.words('french'))
             # stops = set(stopwords.words('czech'))
             # print(stops)
-            # input(" Press Enter to continue...")
+            # inputc(f" Press Enter to continue...", bcolors.ASK)
             # sys.exit(0)
             
+            print(f" /// TRANSLATION:\n")
             # Initialize Google Translator
             translator = Translator()
 
             # Create backup file in backup directory if not already existing
-            if os_path.exists(DEFAULT_ZONA_BACKUP_DIR):
-                print(f" • {bcolors.OK}[Backup in '{DEFAULT_ZONA_BACKUP_DIR}/' directory already exists] OK{bcolors.ENDC}\n")
+            # Initialize flag for backup files so that they are not restored when the backup has just been performed
+            backup_files_done = False
+            backup_dir = f"{DEFAULT_ZONA_BACKUP_DIR}_{current_version_patch}"
+            if os_path.exists(backup_dir):
+                printc(f" • [Backup in '{backup_dir}/' directory already exists] OK\n", bcolors.OK)
             else:
-                backup_files()
+                backup_files(current_version_patch)
+                # Set flag for backup files
+                backup_files_done = True
             
             # Initialiaze variable for lang for progression
             i_langs_count = len(i_langs)
@@ -534,25 +586,55 @@ def main():
             # for i_file in i_files:
             for i_lang in i_langs:
 
+                # Check already existing and create relative translate dir for lang file destination
+                TRANSLATE_DIR_PATH = f"{DEFAULT_ZONA_TRANSLATE_DIR}/{i_lang}_{current_version_patch}"
+                # Initialiaze success file flag path
+                TRANSLATE_SUCCEED_FILE = f"{TRANSLATE_DIR_PATH}/{DEFAULT_ZONA_TRANSLATE_SUCCEED_FILE}"
+                # Does translate dir for lang file destination does not exists?
+                if not os_path.exists(TRANSLATE_DIR_PATH):
+                    os_makedirs(TRANSLATE_DIR_PATH)
+                else:
+                    printc(f" • [Translated files for '{i_lang}' and '{current_version_patch}' version already exists in '{TRANSLATE_DIR_PATH}/' directory] OK\n", bcolors.OK)
+                    # Check success file flag exists in translate lang directory
+                    if os_path.exists(TRANSLATE_SUCCEED_FILE):
+                        printc(f" • [Translated directory contains a valid '{TRANSLATE_SUCCEED_FILE}' succeed flag file] OK\n", bcolors.OK)
+                        # Translate dir for lang file destination does exists ('--force' parameter is not requested)
+                        if not i_force:
+                            printc(f" • [Force translate IS NOT requested]\n", bcolors.ASK)
+                            # Copy existing translate dir for lang file
+                            printc(f" • [Copy translated files from '{TRANSLATE_DIR_PATH}/' to '{DEFAULT_ZONA_DATA_DIR}/'] ...\n", bcolors.INFO)
+                            restore_files(src=TRANSLATE_DIR_PATH)
+                            printc(f" • [Copy translated files from '{TRANSLATE_DIR_PATH}/' to '{DEFAULT_ZONA_DATA_DIR}/'] OK\n", bcolors.OK)
+                            translate_ended_message()
+                            inputc(f" Press Enter to exit...\n", bcolors.ASK)
+                            sys.exit(0)
+                        # Translate dir for lang file destination does exists ('--force' parameter is requested)
+                        else:
+                            printc(f" • [Translated files for '{i_lang}' and '{current_version_patch}' version already exists in '{TRANSLATE_DIR_PATH}/' directory] OK\n", bcolors.OK)
+                            printc(f" • [Translated directory does contain a valid '{TRANSLATE_SUCCEED_FILE}' succeed flag file] OK\n", bcolors.OK)
+                            printc(f" • [But force translate IS requested] OK\n", bcolors.OK)
+                            printc(f" • [Remove valid '{TRANSLATE_SUCCEED_FILE}' succeed flag file] ...\n", bcolors.INFO)
+                            os_remove(TRANSLATE_SUCCEED_FILE)
+                            printc(f" • [Remove valid '{TRANSLATE_SUCCEED_FILE}' succeed flag file] OK\n", bcolors.OK)
+                    else:
+                        printc(f" • [Translated directory does not contain a valid '{TRANSLATE_SUCCEED_FILE}' succeed flag file] OK\n", bcolors.OK)
+                        printc(f" • [Force translate will be performed]\n", bcolors.ASK)
+
                 # Increment lang index for progression
                 i_langs_index = i_langs_index + 1
 
-                # Restore original backup files in data dir before translate
-                print(f" • {bcolors.WARN}[Restore original backup files from '{DEFAULT_ZONA_BACKUP_DIR}' to '{DEFAULT_ZONA_DATA_DIR}'] ...{bcolors.ENDC}\n")
-                restore_files()
-                print(f" • {bcolors.OK}[Restore original backup files from '{DEFAULT_ZONA_BACKUP_DIR}' to '{DEFAULT_ZONA_DATA_DIR}'] OK{bcolors.ENDC}\n")
+                # Do not restore when the backup has just been performed
+                if not backup_files_done:
+                    # Restore original backup files in data dir before translate
+                    printc(f" • [Restore original backup files from '{DEFAULT_ZONA_BACKUP_DIR}/' to '{DEFAULT_ZONA_DATA_DIR}/'] ...\n", bcolors.INFO)
+                    restore_files(current_version_patch)
+                    printc(f" • [Restore original backup files from '{DEFAULT_ZONA_BACKUP_DIR}/' to '{DEFAULT_ZONA_DATA_DIR}/'] OK\n", bcolors.OK)
 
-                print(f" • [Translate from 'en' to '{i_lang}' ({i_langs_index}/{i_langs_count})] ...\n")
-                
                 # BEGIN Translate to i_lang
+                printc(f" • [Translate from 'en' to '{i_lang}' ({i_langs_index}/{i_langs_count})] ...\n", bcolors.INFO)
                 
-                # Create relative translate dir for lang file destination
-                TRANSLATE_DIR_PATH = f"{DEFAULT_ZONA_TRANSLATE_DIR}/{i_lang}"
-                if not os_path.exists(TRANSLATE_DIR_PATH):
-                    os_makedirs(TRANSLATE_DIR_PATH)
-
                 # print
-                # print(f" • [Translate from 'en' to '{i_lang}'] ...")
+                # print(f" • [Translate from 'en' to '{i_lang}'] ...\n")
 
                 # for i_file in i_files:
                 for i_file in tqdm(i_files):
@@ -560,7 +642,7 @@ def main():
                     i_file_translated = f"{TRANSLATE_DIR_PATH}/{i_file}"
                     i_file = f"{DEFAULT_ZONA_DATA_DIR}/{i_file}"
                 
-                    # print(f" • [Translate from 'en' to '{i_lang}'] {i_file} ...")
+                    # print(f" • [Translate from 'en' to '{i_lang}'] {i_file} ...\n")
 
                     with open(i_file, 'rb') as f:
                         if i_file == 'resources.assets':
@@ -594,21 +676,6 @@ def main():
                                     "end_int": -1  # To the EOF
                                 }
                             ]
-
-                        # # BEGIN Not used anymore
-                        # with open(i_file, 'rb') as f:
-                        #     data_offset = f.read().find(bytes.fromhex(start_from_hex_0))
-                        #     if data_offset < 0:
-                        #         continue
-                        # data_offset_hex = "0x{:x}".format(data_offset)
-                        # data_offset_int = int(data_offset_hex, 16)
-                        # # data_offset_int = 0
-
-                        # # print(f"data_offset_hex={data_offset_hex}")
-                        # # print(f"data_offset_int={data_offset_int}")
-                        # # input(" Press Enter to continue...")
-                        # # sys.exit(0)
-                        # # END Not used anymore
                     
                     # If start address for searching in file is a valid address (not negative one)
                     if start_from_int_0 >= 0:
@@ -641,12 +708,17 @@ def main():
                                     max_length = len(s.s)
                                     dialog_tr = dialog_translate(src=translator, dialog=s.s, to=i_lang)
                                     dialog_str = dialog_filter(dialog=dialog_tr, lang=i_lang, target_length=max_length)
-                                    if dialog_str:
-                                        translated_size = len(dialog_str)
-                                        oversize = 'False'
-                                        if translated_size > max_length:
-                                            oversize = 'True'
+                                    if dialog_str:                                        
+                                        # # BEGIN To be uncommented if DEBUG PRINT #1 is needed
+                                        # translated_size = len(dialog_str)
+                                        # oversize = 'False'
+                                        # if translated_size > max_length:
+                                        #     oversize = 'True'
+                                        # # END To be uncommented if DEBUG PRINT #1 is needed
                                         # dialog maximum length is source length
+                                        # if len(dialog_str) > max_length:
+                                        #     dialog_str = dialog_str[:max_length]
+                                        #     dialog_str = dialog_str[:-3] + '###'
                                         dialog_str = dialog_str[:max_length]
                                         # Fill dialog with whitespaces to match source length
                                         dialog_str = dialog_str.ljust(max_length)
@@ -654,11 +726,17 @@ def main():
                                         dialog_str = dialog_str.encode('ascii', 'ignore').decode()
                                         # Calculate new size
                                         new_size = len(dialog_str)
-                                        # Print result CSV
+                                        # # BEGIN DEBUG PRINTS
                                         sep = ';'
+                                        # # DEBUG PRINT #1
                                         # print(" {:s}{:1s}ASCII{:1s}0x{:x}{:1s}True{:1s}{:d}{:1s}{:d}{:1s}{:d}{:1s}{:s}{:1s}{:s}".format(i_file, sep, sep, s.offset, sep, sep, max_length, sep, translated_size, sep, new_size, sep, oversize, sep, dialog_str))
+                                        # # DEBUG PRINT #2
                                         # print(" {:s}{:1s}ASCII{:1s}0x{:x}{:1s}{:s}".format(i_file, sep, sep, s.offset, sep, s.s))
+                                        # # DEBUG PRINT #3
                                         # print(" {:s}{:1s}ASCII{:1s}0x{:x}{:1s}{:s}".format(i_file, sep, sep, s.offset, sep, dialog_str))
+                                        # # DEBUG PRINT #4
+                                        # print(" <{:d}> {:s}".format(max_length, dialog_str))
+                                        # BEGIN DEBUG PRINTS
                                         # Set 'json_write_to' dict
                                         address_hex = "0x{:x}".format(s.offset)
                                         address_int = int(address_hex, 16)
@@ -694,32 +772,32 @@ def main():
                                 f.seek(element['address_int'])
                                 f.write(binary_string)
 
-                        # # print(f" • {bcolors.OK}[Translate from 'en' to '{i_lang}'] {i_file} OK{bcolors.ENDC}")
+                        # # printc(f" • [Translate from 'en' to '{i_lang}'] {i_file} OK\n", bcolors.OK)
+
+                # Create success file flag in translate lang directory
+                with open(TRANSLATE_SUCCEED_FILE, "w") as f:
+                    pass
 
                 # print
-                # print(f" • {bcolors.OK}[Translate from 'en' to '{i_lang}'] OK{bcolors.ENDC}")
+                # printc(f" • [Translate from 'en' to '{i_lang}'] OK\n", bcolors.OK)
 
                 # END Translate to i_lang
 
                 # All is OK!
-                print(f" • {bcolors.OK}[Translate from 'en' to '{i_lang}' ({i_langs_index}/{i_langs_count})] OK{bcolors.ENDC}\n")
+                printc(f" • [Translate from 'en' to '{i_lang}' ({i_langs_index}/{i_langs_count})] OK\n", bcolors.OK)
 
                 # Copy translated files to default data dir
-                print(f" • {bcolors.WARN}[Copy translated files from '{TRANSLATE_DIR_PATH}' to '{DEFAULT_ZONA_DATA_DIR}'] ...{bcolors.ENDC}\n")
+                printc(f" • [Copy translated files from '{TRANSLATE_DIR_PATH}/' to '{DEFAULT_ZONA_DATA_DIR}/'] ...\n", bcolors.INFO)
                 restore_files(src=TRANSLATE_DIR_PATH)
-                print(f" • {bcolors.OK}[Copy translated files from '{TRANSLATE_DIR_PATH}' to '{DEFAULT_ZONA_DATA_DIR}'] OK{bcolors.ENDC}\n")
+                printc(f" • [Copy translated files from '{TRANSLATE_DIR_PATH}/' to '{DEFAULT_ZONA_DATA_DIR}/'] OK\n", bcolors.OK)
 
-            print(f"{bcolors.OK}")
-            print(f" To activate translation:")
-            print(f"    1. Launch 'Z.O.N.A Origin' game from Steam as usual.")
-            print(f"    2. Be sure to select 'English' language in 'Z.O.N.A Origin' game's settings.\n")
-            print(f"{bcolors.ENDC}")
+            translate_ended_message()
 
     except Exception as e:
-        print(f" {bcolors.FAIL}Error: {e}{bcolors.ENDC}")
+        printc(f" Error: {e}\n", bcolors.FAIL)
 
     finally:
-        input(" Press Enter to exit...")
+        inputc(f" Press Enter to exit...", bcolors.ASK)
 
 if __name__ == '__main__':
     main()
