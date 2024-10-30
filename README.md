@@ -12,15 +12,15 @@ Script for translating dialogues and quest titles of the Steam game 'Z.O.N.A Ori
 
   • French
   
-  • Italian
+  • Italian (Not tested as I don't speak this language)
   
-  • Spanish
+  • Spanish (Not tested as I don't speak this language)
   
-  • Czech
+  • Czech (Not tested as I don't speak this language)
   
-  • Polish
+  • Polish (Not tested as I don't speak this language)
   
-  • Romanian
+  • Romanian (Not tested as I don't speak this language)
 
 ## Installation
 
