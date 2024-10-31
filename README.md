@@ -37,13 +37,19 @@ Script for translating dialogues and quest titles of the Steam game 'Z.O.N.A Ori
 
 • Execute 'auto_ZO_translate.exe'
 
-  Press Enter if prerequisites displayed on the screen are correct (Your 'Z.O.N.A Origin' game must be up to date + Your PC has an Internet connection for Google Translator API requests).
+```
+1. Press Enter if prerequisites displayed on the screen are correct:
+      - Your 'Z.O.N.A Origin' game must be up to date
+      - Your PC has an Internet connection for Google Translator API requests).
 
-  Select the language you want to translate English to (Possible choices are: fr, it, es, cd, pl, ro)
-  
+2. Select the language you want to translate English to (Possible choices are: fr, it, es, cd, pl, ro)
+```
+
 • To restore original translation, execute the shortcut 'auto_ZO_translate (restore)' created by the executable
 
-  Then confirm you want to restore original translation (y/n)
+```
+Then confirm you want to restore original translation (y/n)
+```
 
 
 ## Usage from sources
@@ -66,11 +72,16 @@ Script for translating dialogues and quest titles of the Steam game 'Z.O.N.A Ori
 
 • Double clic on 'auto_ZO_translate.py' to execute script
 
-  Press Enter if prerequisites displayed on the screen are correct (Your 'Z.O.N.A Origin' game must be up to date + Your PC has an Internet connection for Google Translator API requests).
+```
+1. Press Enter if prerequisites displayed on the screen are correct:
+      - Your 'Z.O.N.A Origin' game must be up to date
+      - Your PC has an Internet connection for Google Translator API requests).
 
-  Select the language you want to translate English to (Possible choices are: fr, it, es, cd, pl, ro)
+2. Select the language you want to translate English to (Possible choices are: fr, it, es, cd, pl, ro)
+```
   
 • To restore original translation, execute the shortcut 'auto_ZO_translate (restore)' created by the script execution
 
-  Then confirm you want to restore original translation (y/n)
-  
+```
+Then confirm you want to restore original translation (y/n)
+```  
