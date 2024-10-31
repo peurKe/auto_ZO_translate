@@ -56,11 +56,9 @@ Then confirm you want to restore original translation (y/n)
 
 • Download the **3.12.7** version of Python for windows:
 
-  /!\ Do not download the latest version because of **numba** python package requirement (**only versions >=3.9,<3.13 are supported**):
-    
-  **Python for Windows "64-bit" 3.12.7**   https://www.python.org/ftp/python/3.12.7/python-3.12.7-amd64.exe
-        
-  **Python for Windows "32-bit" 3.12.7**   https://www.python.org/ftp/python/3.12.7/python-3.12.7.exe
+    # /!\ Do not download the latest version because of numba python package requirement (only versions >=3.9,<3.13 are supported):
+    # Python for Windows "64-bit" 3.12.7   https://www.python.org/ftp/python/3.12.7/python-3.12.7-amd64.exe
+    # Python for Windows "32-bit" 3.12.7   https://www.python.org/ftp/python/3.12.7/python-3.12.7.exe
         
 • Run the installer and follow the prompts to install Python.
 
