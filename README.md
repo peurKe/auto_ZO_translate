@@ -37,28 +37,37 @@ Script for translating dialogues and quest titles of the Steam game 'Z.O.N.A Ori
 
 • Execute 'auto_ZO_translate.exe'
 
-  Press Enter if prerequisites displayed on the screen are correct (Your 'Z.O.N.A Origin' game must be up to date + Your PC has an Internet connection for Google Translator API requests).
+```
+1. Press Enter if prerequisites displayed on the screen are correct:
+      - Your 'Z.O.N.A Origin' game must be up to date
+      - Your PC has an Internet connection for Google Translator API requests).
 
-  Select the language you want to translate English to (Possible choices are: fr, it, es, cd, pl, ro)
-  
+2. Select the language you want to translate English to (Possible choices are: fr, it, es, cd, pl, ro)
+```
+
 • To restore original translation, execute the shortcut 'auto_ZO_translate (restore)' created by the executable
 
-  Then confirm you want to restore original translation (y/n)
+```
+Then confirm you want to restore original translation (y/n)
+```
 
 
 ## Usage from sources
 
-• Download the latest Python package:
-    
-  "64-bit" for Windows (https://www.python.org/ftp/python/3.13.0/python-3.13.0-amd64.exe).
-        
-  "32-bit" for Windows (https://www.python.org/ftp/python/3.13.0/python-3.13.0.exe).
+• Download the **3.12.7** version of Python for windows:
+
+   **/!\ Do not download the latest version because of numba python package requirement (only versions >=3.9,<3.13 are supported)**
+   
+   Python for Windows "64-bit" 3.12.7   https://www.python.org/ftp/python/3.12.7/python-3.12.7-amd64.exe
+   
+   Python for Windows "32-bit" 3.12.7   https://www.python.org/ftp/python/3.12.7/python-3.12.7.exe
         
 • Run the installer and follow the prompts to install Python.
 
-• Open python installed console and install all following additional packages:
+• Open python installed console, upgrade pip package and install all following additional packages:
 
-    pip install tqdm googletrans==3.1.0a0 legacy-cgi nltk unidecode pywin32 pyinstaller
+    pip install --upgrade pip
+    pip install numba tqdm googletrans==3.1.0a0 legacy-cgi nltk unidecode pywin32 pyinstaller
 
 • Move the 'auto_ZO_translate.py' script in the same directory as the 'ZONAORIGIN.exe' executable file (usually in the 'C:\Program Files (x86)\Steam\steamapps\common\ZONAORIGIN\' directory).
 
@@ -66,11 +75,16 @@ Script for translating dialogues and quest titles of the Steam game 'Z.O.N.A Ori
 
 • Double clic on 'auto_ZO_translate.py' to execute script
 
-  Press Enter if prerequisites displayed on the screen are correct (Your 'Z.O.N.A Origin' game must be up to date + Your PC has an Internet connection for Google Translator API requests).
+```
+1. Press Enter if prerequisites displayed on the screen are correct:
+      - Your 'Z.O.N.A Origin' game must be up to date
+      - Your PC has an Internet connection for Google Translator API requests).
 
-  Select the language you want to translate English to (Possible choices are: fr, it, es, cd, pl, ro)
+2. Select the language you want to translate English to (Possible choices are: fr, it, es, cd, pl, ro)
+```
   
 • To restore original translation, execute the shortcut 'auto_ZO_translate (restore)' created by the script execution
 
-  Then confirm you want to restore original translation (y/n)
-  
+```
+Then confirm you want to restore original translation (y/n)
+```  
