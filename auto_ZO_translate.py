@@ -10,11 +10,14 @@ Version: 1.1
 License: MIT
 """
 
+# https://www.python.org/ftp/python/3.13.0/python-3.13.0-amd64.exe
+# https://www.python.org/ftp/python/3.13.0/python-3.13.0.exe
 # https://gist.github.com/williballenthin/8e3913358a7996eab9b96bd57fc59df2 (broken)
 # https://gist.github.com/jedimasterbot/39ef35bc4324e4b4338a210298526cd0 (fixed)
 # https://github.com/ssut/py-googletrans/issues/280
 # https://medium.com/analytics-vidhya/removing-stop-words-with-nltk-library-in-python-f33f53556cc1
 
+# pip install --upgrade pip
 # pip install tqdm googletrans==3.1.0a0 legacy-cgi nltk unidecode pywin32 pyinstaller
 # pip install tqdm
 # pip install googletrans==3.1.0a0
@@ -152,6 +155,7 @@ RESTORE_SPECIFIC_WORDS = {
     'cs': [
         { "from": "puvod vr", "to": "ORIGIN VR" },
         { "from": "tracker", "to": "Stalker" },
+        { "from": "psi", "to": "psych" },
         { "from": "barva",   "to": "color" }
     ],
     "it": [
