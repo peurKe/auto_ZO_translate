@@ -2,11 +2,13 @@
 
 Script for translating dialogues and quest titles of the Steam game 'Z.O.N.A Origin' by AGaming+.
 
+
 ## Prerequisites
 
   • Your 'Z.O.N.A Origin' game must be up to date.
   
   • You must authorise this script in your firewall (API requests toward Online Google translator are required).
+
 
 ## Currently supported languages
 
@@ -21,6 +23,7 @@ Script for translating dialogues and quest titles of the Steam game 'Z.O.N.A Ori
   • **pl** = Polish (Not tested as I don't speak this language)
   
   • **ro** = Romanian (Not tested as I don't speak this language)
+
 
 ## Usage from binary release
 
@@ -41,6 +44,7 @@ Script for translating dialogues and quest titles of the Steam game 'Z.O.N.A Ori
 • To restore original translation, execute the 'auto_ZO_translate (restore).exe' shortchut :
 
   Then confirm you want to restore original translation (y/n)
+
 
 ## Usage from sources
 
