@@ -10,17 +10,17 @@ Script for translating dialogues and quest titles of the Steam game 'Z.O.N.A Ori
 
 ## Currently supported languages
 
-  • French
+  • **fr** = French
   
-  • Italian (Not tested as I don't speak this language)
+  • **it** = Italian (Not tested as I don't speak this language)
   
-  • Spanish (Not tested as I don't speak this language)
+  • **es** = Spanish (Not tested as I don't speak this language)
   
-  • Czech (Not tested as I don't speak this language)
+  • **cs** = Czech (Not tested as I don't speak this language)
   
-  • Polish (Not tested as I don't speak this language)
+  • **pl** = Polish (Not tested as I don't speak this language)
   
-  • Romanian (Not tested as I don't speak this language)
+  • **ro** = Romanian (Not tested as I don't speak this language)
 
 ## Installation from sources
 
@@ -48,7 +48,7 @@ On Windows 10/11:
 
   • Press enter if prerequisites are OK
 
-  • Select the language you want to translate English to (Possible choices are: fr, it, es, cd, ro, pl)
+  • Select the language you want to translate English to (Possible choices are: fr, it, es, cd, pl, ro)
   
   • To restore original translation, execute the script with following argument:
   
