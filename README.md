@@ -37,7 +37,7 @@ Script for translating dialogues and quest titles of the Steam game 'Z.O.N.A Ori
 
 • Execute 'auto_ZO_translate.exe'
 
-  Press Enter if prerequisites displayed on the screen are correct ('Z.O.N.A Origin' game is up to date + Script can connect to the Internet from your PC for Google Translator API requests).
+  Press Enter if prerequisites displayed on the screen are correct (Your 'Z.O.N.A Origin' game must be up to date + Your PC has an Internet connection for Google Translator API requests).
 
   Select the language you want to translate English to (Possible choices are: fr, it, es, cd, pl, ro)
   
@@ -66,7 +66,7 @@ Script for translating dialogues and quest titles of the Steam game 'Z.O.N.A Ori
 
 • Double clic on 'auto_ZO_translate.py' to execute script
 
-  Press Enter if prerequisites displayed on the screen are correct ('Z.O.N.A Origin' game is up to date + Script can connect to the Internet from your PC for Google Translator API requests).
+  Press Enter if prerequisites displayed on the screen are correct (Your 'Z.O.N.A Origin' game must be up to date + Your PC has an Internet connection for Google Translator API requests).
 
   Select the language you want to translate English to (Possible choices are: fr, it, es, cd, pl, ro)
   
