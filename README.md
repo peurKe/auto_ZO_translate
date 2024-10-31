@@ -24,7 +24,7 @@ Script for translating dialogues and quest titles of the Steam game 'Z.O.N.A Ori
 
 ## Usage from binary release
 
-• Download the latest bianry release:
+• Download the latest binary release:
 
   https://github.com/peurKe/auto_ZO_translate/releases  
 
