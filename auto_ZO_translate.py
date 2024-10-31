@@ -456,9 +456,10 @@ def printc(msg, c=None):
 
 def inputc(prompt, c=None):
     if not c:
-        input(msg)
+        res = input(msg)
     else:
-        input(f"{c}{prompt}{bcolors.ENDC}")
+        res = input(f"{c}{prompt}{bcolors.ENDC}")
+    return res
 
 
 def main():
@@ -532,8 +533,9 @@ def main():
             # BEGIN GUI execution
             if i_langs == ['empty']:
                 i_langs = ''
-                while i_langs not in ['all', 'fr', 'cs', 'it', 'es', 'ro', 'pl']:
-                    i_langs = str(inputc(f" Language to translate to (all|fr|cs|it|es|ro|pl): ", bcolors.ASK)).lower().strip()
+                print()
+                while i_langs not in ['fr', 'cs', 'it', 'es', 'ro', 'pl']:
+                    i_langs = str(inputc(f" Language to translate to (fr|cs|it|es|ro|pl): ", bcolors.ASK)).lower().strip()
                 i_langs = i_langs.split(',')
                 i_langs = check_all_in_langs(i_langs)
             # END GUI execution
