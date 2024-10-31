@@ -58,7 +58,7 @@ Script for translating dialogues and quest titles of the Steam game 'Z.O.N.A Ori
 
 • Open python installed console and install all following additional packages:
 
-    pip install tqdm googletrans==3.1.0a0 legacy-cgi nltk unidecode
+    pip install tqdm googletrans==3.1.0a0 legacy-cgi nltk unidecode pywin32 pyinstaller
 
 • Move the 'auto_ZO_translate.py' script in the same directory as the 'ZONAORIGIN.exe' executable file (usually in the 'C:\Program Files (x86)\Steam\steamapps\common\ZONAORIGIN\' directory).
 
