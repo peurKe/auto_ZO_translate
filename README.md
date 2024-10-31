@@ -22,7 +22,7 @@ Script for translating dialogues and quest titles of the Steam game 'Z.O.N.A Ori
   
   • Romanian (Not tested as I don't speak this language)
 
-## Installation
+## Installation from sources
 
 On Windows 10/11:
 
