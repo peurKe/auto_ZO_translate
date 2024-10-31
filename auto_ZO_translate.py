@@ -15,12 +15,13 @@ License: MIT
 # https://github.com/ssut/py-googletrans/issues/280
 # https://medium.com/analytics-vidhya/removing-stop-words-with-nltk-library-in-python-f33f53556cc1
 
-# pip install tqdm googletrans==3.1.0a0 legacy-cgi nltk unidecode pyinstaller
+# pip install tqdm googletrans==3.1.0a0 legacy-cgi nltk unidecode pywin32 pyinstaller
 # pip install tqdm
 # pip install googletrans==3.1.0a0
 # pip install legacy-cgi
 # pip install nltk
 # pip install unidecode
+# pip install pywin32
 # pip install pyinstaller
 
 # Error: Time out --> Problem with google translator API = Relaunch script
@@ -30,7 +31,7 @@ License: MIT
 
 import argparse
 import sys
-from os import path as os_path, makedirs as os_makedirs, listdir as os_listdir, remove as os_remove
+from os import path as os_path, makedirs as os_makedirs, listdir as os_listdir, remove as os_remove, getcwd as os_getcwd
 import glob
 import re
 import time
@@ -46,6 +47,7 @@ try:
     from nltk import download as nltk_download
     from nltk.tokenize import word_tokenize
     from googletrans import Translator
+    import win32com.client
 except Exception as e:
     print(f" Error: {e}")
     input(f" Press Enter to exit...")
@@ -73,6 +75,7 @@ DEFAULT_ZONA_TRANSLATE_SUCCEED_FILE = 'done.txt'
 DEFAULT_ZONA_BACKUP_DIR = './auto_ZO_translate/BACKUP'
 DEFAULT_ZONA_EXE_FILENAME = 'ZONAORIGIN.exe'
 DEFAULT_ZONA_GLOBAL_GM = 'globalgamemanagers'
+DEFAULT_ZONA_TRANSLATE_RESTORE_SHORTCUT = 'auto_ZO_translate (restore).lnk'
 
 ASCII_BYTE = rb" #\/!\"'\(\)\+,\-\.0123456789:;<=>\?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 
@@ -447,6 +450,30 @@ def translate_ended_message():
     printc(f"                                                                                                         ", bcolors.NOTIF)
     print()
 
+
+def create_restore_shortcut():
+    # Get current script name
+    script_name = os_path.basename(__file__)
+    # Get current working directory
+    current_dir = os_getcwd()
+    # Define the executable path and shortcut properties
+    exe_path = f"{current_dir}\\{script_name}"
+    exe_args = '-r'
+    shortcut_name = "auto_ZO_translate (restore).lnk"
+    shortcut_target = exe_path
+    # Create a WScript.Shell object
+    shell = win32com.client.Dispatch('WScript.Shell')
+    # Create a shortcut object
+    shortcut = shell.CreateShortCut(shortcut_name)
+    # Set the shortcut properties
+    shortcut.TargetPath = shortcut_target
+    shortcut.WorkingDirectory = os_path.dirname(shortcut_target)
+    shortcut.Arguments = exe_args
+    # Save the shortcut
+    shortcut.save()
+    return shortcut_name
+
+
 def printc(msg, c=None):
     if not c:
         print(msg)
@@ -456,7 +483,7 @@ def printc(msg, c=None):
 
 def inputc(prompt, c=None):
     if not c:
-        res = input(msg)
+        res = input(prompt)
     else:
         res = input(f"{c}{prompt}{bcolors.ENDC}")
     return res
@@ -465,11 +492,19 @@ def inputc(prompt, c=None):
 def main():
 
     try:
+        # Check current working directory is valid
         if not os_path.exists(DEFAULT_ZONA_EXE_FILENAME):
             printc(f" Error: Move this script in the same directory as the 'ZONAORIGIN.exe' executable file (usually in the '{DEFAULT_ZONA_DIR_EXAMPLE}' directory).\n", bcolors.FAIL)
             printc(f" Then run this moved script again.", bcolors.FAIL)
             sys.exit(-1)
 
+        # Create a restore shortcut in the current directory if not existing
+        if not os_path.exists(DEFAULT_ZONA_TRANSLATE_RESTORE_SHORTCUT):
+            printc(f" • [Create a restore shortcut in the current directory] ...\n", bcolors.INFO)
+            shortcut = create_restore_shortcut()
+            printc(f" • [Create '{shortcut}' restore shortcut in the current directory] OK\n", bcolors.OK)
+
+        # Get script arguments
         argparser = argparse.ArgumentParser()
         argparser.add_argument("-l", "--langs", type=str, default='empty', choices=['empty', 'all', 'fr', 'cs', 'it', 'es', 'ro', 'pl'], help="Languages to translate to. if more than one language then '--langs' parameter must be comma separated (eg. 'fr,cs')")
         argparser.add_argument("-f", "--files", type=str, default='empty', help="Comma separated str. Default is with all 'levelNN' and 'resources.assets' files. if '--file' is specified then '--files' parameter must be comma separated (eg. 'level7,level11')")
@@ -526,7 +561,7 @@ def main():
         else:
             print(" /// PREREQUISITES:\n")
             printc("    • Your 'Z.O.N.A Origin' game must be up to date.", bcolors.INFO)
-            printc("    • You must authorise this script in your firewall (API requests to Google's online translator are required).\n", bcolors.INFO)
+            printc("    • Your PC has an Internet connection for Google Translator API requests.\n", bcolors.INFO)
             printc(" Press Ctrl+C to exit if you need to update 'Z.O.N.A Origin' game before translate...", bcolors.ASK)
             inputc(" Press Enter to translate 'Z.O.N.A Origin' game...", bcolors.ASK)
 
