@@ -54,17 +54,20 @@ Then confirm you want to restore original translation (y/n)
 
 ## Usage from sources
 
-• Download the latest Python package:
+• Download the 3.12.7 version of Python for windows:
+
+  Do not download the latest version because of numba python package requirement (only versions >=3.9,<3.13 are supported):
     
-  "64-bit" for Windows (https://www.python.org/ftp/python/3.13.0/python-3.13.0-amd64.exe).
+  Python for Windows "64-bit" 3.12.7   https://www.python.org/ftp/python/3.12.7/python-3.12.7-amd64.exe
         
-  "32-bit" for Windows (https://www.python.org/ftp/python/3.13.0/python-3.13.0.exe).
+  Python for Windows "32-bit" 3.12.7   https://www.python.org/ftp/python/3.12.7/python-3.12.7.exe
         
 • Run the installer and follow the prompts to install Python.
 
-• Open python installed console and install all following additional packages:
+• Open python installed console, upgrade pip package and install all following additional packages:
 
-    pip install tqdm googletrans==3.1.0a0 legacy-cgi nltk unidecode pywin32 pyinstaller
+    pip install --upgrade pip
+    pip install numba tqdm googletrans==3.1.0a0 legacy-cgi nltk unidecode pywin32 pyinstaller
 
 • Move the 'auto_ZO_translate.py' script in the same directory as the 'ZONAORIGIN.exe' executable file (usually in the 'C:\Program Files (x86)\Steam\steamapps\common\ZONAORIGIN\' directory).
 
