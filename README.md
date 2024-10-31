@@ -40,16 +40,16 @@ On Windows 10/11:
   
         pip install tqdm googletrans==3.1.0a0 legacy-cgi nltk unidecode
 
-  • Move the auto_ZO_translate.py script in the same directory as the 'ZONAORIGIN.exe' executable file (usually in the '{DEFAULT_ZONA_DIR_EXAMPLE}' directory).
+  • Move the 'auto_ZO_translate.py' script in the same directory as the 'ZONAORIGIN.exe' executable file (usually in the 'C:\Program Files (x86)\Steam\steamapps\common\ZONAORIGIN\' directory).
 
-  • Execute the auto_ZO_translate.py script:
+  • Go to the 'C:\Program Files (x86)\Steam\steamapps\common\ZONAORIGIN\'
+
+  • Double-Clic on 'auto_ZO_translate.py'
+
+  • Press enter if prerequisites are OK
+
+  • Select the language you want to translate English to (Possible choices are: fr, it, es, cd, ro, pl)
   
-        Double-Clic from Windows GUI
-        
-        or 
-        
-        ./auto_ZO_translate.py
-
   • To restore original translation, execute the script with following argument:
   
         ./auto_ZO_translate.py -r
